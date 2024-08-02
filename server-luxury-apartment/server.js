@@ -94,6 +94,15 @@ app.get('/contact',async(req,res)=>{
   }
   
 });
+app.get('/apartment/:id',async(req, res)=>{
+  try{
+    const apartment = await Apartment.findById(req.params.id);
+    res.json(apartment);
+    }
+    catch(err){
+      res.status(400).json('Error: ' + err);
+    }
+})
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

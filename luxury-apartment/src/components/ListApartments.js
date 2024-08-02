@@ -1,7 +1,8 @@
 // src/components/ApartmentDetails.js
-import React from 'react';
-import '../css/ApartmentDetails.css';
-const ApartmentDetails = ({ apartment }) => {
+import {Link} from 'react-router-dom';
+import '../css/ListApartments.css';
+
+const ListApartments = ({ apartment }) => {
   return (
     <div className="apartment-details">
       {/* {apartment.images.map((image, index) => (
@@ -30,10 +31,13 @@ const ApartmentDetails = ({ apartment }) => {
         <li className="apartment-feature">Parking: {apartment.features.parking}</li>
       </ul>
       <div className="visit-apartment">
-        <button className="visit-button">Visit Apartment</button>
+        <Link to={`detail-apartments/${apartment._id}`}>  
+              <button className="visit-button" >Visit Apartment</button>
+        </Link>
       </div>
     </div>
+    
   );
 };
 
-export default ApartmentDetails;
+export default ListApartments;

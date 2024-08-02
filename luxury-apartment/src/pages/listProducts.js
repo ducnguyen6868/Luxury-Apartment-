@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import '../css/property.css';
-import ApartmentDetails from '../components/ApartmentDetails';
+import ListApartments from '../components/ListApartments';
 
 const ListProducts = () => {
   const [apartments, setApartments] = useState([]);
@@ -10,7 +10,7 @@ const ListProducts = () => {
       try {
         const response = await fetch('http://localhost:5000');
         const json = await response.json();
-        console.log(json);
+        //console.log(json);
         if (response.ok) {
           setApartments(json);
         }
@@ -35,7 +35,7 @@ const ListProducts = () => {
       <div className='section-products'>
         {apartments.length > 0 ? (
           apartments.map(apartment => (
-            <ApartmentDetails key={apartment._id} apartment={apartment} />
+            <ListApartments key={apartment._id} apartment={apartment} />
 
           ))
         ) : (

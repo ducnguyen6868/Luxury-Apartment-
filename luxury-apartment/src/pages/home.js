@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import ApartmentDetails from '../components/ApartmentDetails';
+import ListApartments from '../components/ListApartments';
 import Contact  from '../components/Contact';
 const Home = () => {
     const [apartments, setApartments] = useState([]);
@@ -56,7 +56,7 @@ const Home = () => {
                 <div className='section-products'>
                     {apartments.length > 0 ? (
                         apartments.map(apartment => (
-                            <ApartmentDetails key={apartment._id} apartment={apartment} />
+                            <ListApartments key={apartment._id} apartment={apartment} />
 
                         ))
                     ) : (

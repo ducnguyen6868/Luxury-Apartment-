@@ -86,7 +86,7 @@
   justify-content: center;
   margin-top: 30px;
 }
-.visit-apartment>button{
+.visit-apartment button{
   font-size: large;
   padding:5px 10px;
   border-radius: 10px;
@@ -97,6 +97,6 @@
   transition:padding .3s ease-in-out;
 
 }
-.visit-apartment>button:hover{
+.visit-apartment button:hover{
   padding:5px 50px;
 }

@@ -58,7 +58,7 @@ const Layout = () => {
                             <nav className="main-nav">
                                 {/* <!-- ***** Logo Start ***** --> */}
                                 <Link to="/" className="logo">
-                                    <img src='./logo.png' alt="Logo" title='Villa Agency' style={{ width: '100px', height: '100px' }} />
+                                    <img src='../logo.png' alt="Logo" title='Villa Agency' style={{ width: '100px', height: '100px' }} />
                                 </Link>
                                 {/* <!-- ***** Logo End ***** --> */}
                                 {/* <!-- ***** Menu Start ***** --> */}
@@ -74,18 +74,18 @@ const Layout = () => {
                                     </li>
                                     <li>
                                         <Link
-                                            to="/list_products"
-                                            className={`option ${activeLink === '/list_products' ? 'active' : ''}`}
-                                            onClick={() => handleLinkClick('/list_products')}
+                                            to="/list-apartments"
+                                            className={`option ${activeLink === '/list-apartments' ? 'active' : ''}`}
+                                            onClick={() => handleLinkClick('/list-apartments')}
                                         >
                                             Properties
                                         </Link>
                                     </li>
                                     <li>
                                         <Link
-                                            to="/detail_product"
-                                            className={`option ${activeLink === '/detail_product' ? 'active' : ''}`}
-                                            onClick={() => handleLinkClick('/detail_product')}
+                                            to="/detail-apartments/:id"
+                                            className={`option ${activeLink === '/detail-apartments/:id' ? 'active' : ''}`}
+                                            onClick={() => handleLinkClick('/detail-apartments/:id')}
                                         >
                                             Property Details
                                         </Link>

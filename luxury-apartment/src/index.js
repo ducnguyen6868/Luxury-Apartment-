@@ -18,8 +18,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="list_products" element={< ListProducts />} />
-          <Route path="detail_product" element={< DetailProduct />} />
+          <Route path="list-apartments" element={< ListProducts />} />
+          <Route path="detail-apartments/:id" element={< DetailProduct />} />
           <Route path="contact" element={<Contact />} />
         </Route>
       </Routes>
