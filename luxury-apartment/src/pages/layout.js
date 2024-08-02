@@ -119,7 +119,7 @@ const Layout = () => {
             <Outlet />
             
             <footer>
-                <p>Do not Copyright</p>
+                <p>Design by Group1</p>
             </footer>
 
         </>
