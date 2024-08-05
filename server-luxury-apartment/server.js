@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -72,8 +73,32 @@ const EmployeeSchema = mongoose.Schema(
     email: String,
   }
 );
-const Employee= mongoose.model("Employee",EmployeeSchema);
-module.exports=Employee;
+const Employee = mongoose.model("Employee", EmployeeSchema);
+module.exports = Employee;
+// UserSchema
+const UserSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  avatar: {
+    type: String,
+    default: 'logo.png'
+  }
+});
+
+const User = mongoose.model('User', UserSchema);
+module.exports = User;
+
 // Routes
 app.get('/', async (req, res) => {
   try {
@@ -84,25 +109,81 @@ app.get('/', async (req, res) => {
     res.status(400).json('Error: ' + err);
   }
 });
-app.get('/contact',async(req,res)=>{
-  try{
-    const Employees= await Employee.find();
+app.get('/contact', async (req, res) => {
+  try {
+    const Employees = await Employee.find();
     res.json(Employees);
   }
-  catch{
+  catch {
     res.status(400).json('Error: ' + err);
   }
-  
+
 });
-app.get('/apartment/:id',async(req, res)=>{
-  try{
+app.get('/apartment/:id', async (req, res) => {
+  try {
     const apartment = await Apartment.findById(req.params.id);
     res.json(apartment);
-    }
-    catch(err){
-      res.status(400).json('Error: ' + err);
-    }
+  }
+  catch (err) {
+    res.status(400).json('Error: ' + err);
+  }
 })
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ success: false, message: 'Email and password are required' });
+  }
+  //console.log(email , password); //OK
+  try{
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(400).json({ success: false, message: 'This user does not exist' });
+    }else{
+      if(password===user.password){
+        const token = jwt.sign({ userId: user._id }, 'secret', { expiresIn: '1h' });
+        res.json({ success: true, token });
+      }else{
+        return res.json({ success: false, message: 'Invalid password' });
+      }
+    }
+
+  }catch(err){
+    console.log("Error :", err);
+  }
+  //console.log(user); //OK
+  // console.log(typeof password);
+  // console.log(typeof user.password);
+  //So sánh mật khẩu nhập vào và mật khẩu được mã hóa lưu trong CSDL
+  //( Tạm thời chưa dùng tới)
+  // const isMatch = await bcrypt.compare(password, user.password);
+  // console.log(isMatch);
+  // if (!isMatch) {
+  //   return res.status(400).json({ success: false, message: 'Invalid credentials' });
+  // }
+
+ 
+});
+app.post('/register', async (req, res) => {
+  const { name, email, password } = req.body;
+  //console.log(name, email,password);  //TEST OK
+  try {
+    const checkEmail = await User.findOne({ email: email });
+    if (!checkEmail) {
+      const user = await User.create({
+        name: name,
+        email: email,
+        password: password
+      });
+      user.save();
+      res.json(user);
+    } else {
+      res.json({ result: 'false' })
+    }
+
+  } catch (err) {
+    console.log("Error :", err);
+  }
+});
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

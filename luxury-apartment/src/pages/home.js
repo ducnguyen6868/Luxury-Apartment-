@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import ListApartments from '../components/ListApartments';
-import Contact  from '../components/Contact';
+import Contact from '../components/Contact';
 const Home = () => {
     const [apartments, setApartments] = useState([]);
 
@@ -20,6 +20,7 @@ const Home = () => {
         fetchApartments();
 
     }, []);
+
 
     return (
         <>
@@ -64,7 +65,7 @@ const Home = () => {
                     )}
                 </div>
             </div>
-            <Contact/>
+            <Contact />
 
         </>
     );

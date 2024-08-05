@@ -25,10 +25,12 @@ Contact Style
     color:aliceblue;
     padding-bottom: 30px;
   }
+.contact-content{
+  padding:20px;
+}
 .contact-container{
-    display:grid;
-    grid-template-columns: repeat(auto-fit , minmax(400px , 1fr));
-    gap:20px;
+    display:flex;
+    justify-content: space-between;
     padding :0px 20px;
 
 }
@@ -37,7 +39,8 @@ Contact Style
     justify-content: space-around;
     margin-top:20px ;
   }
-  /* Contac with us */
+  /* Contact with us */
+
 #contact-form{
   box-shadow: 0 0 10px gray;
   border-radius: 10px;

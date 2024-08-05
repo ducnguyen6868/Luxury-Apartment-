@@ -7,12 +7,23 @@ import '../css/flex-slider.css';
 // import '../css/owl.css';
 // import '../css/templatemo-villa-agency.css';
 // import '../css/animate.css';
-
+import LoginForm from '../components/LoginForm';
+import RegisterForm from '../components/RegisterForm';
 const Layout = () => {
     const [activeLink, setActiveLink] = useState('/');
 
     const handleLinkClick = (path) => {
         setActiveLink(path);
+    };
+    // const [showLogin, setShowLogin] = useState(false);
+    // const [ShowRegister, setShowRegister] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+    const [HideAndShow , setHideAndShow]= useState(false);
+    const toggleVisibility = () => {
+        setIsVisible(!isVisible);
+    };
+    const ChangeHideAndShow = () => {
+        setHideAndShow(!HideAndShow);
     };
     return (
         <>
@@ -108,8 +119,16 @@ const Layout = () => {
                                             <i className="fa fa-calendar"></i> Schedule a visit
                                         </Link>
                                     </li>
+
                                 </ul>
                                 {/* <!-- ***** Menu End ***** --> */}
+                                <div>
+                                    <span onClick={toggleVisibility} style={{ padding: '0px 5px', cursor: 'pointer' }}>Đăng nhập</span>
+                                    {isVisible && <LoginForm onClose={toggleVisibility} />}
+                                    <span style={{ padding: '0px 5px', cursor: 'pointer' }}>|</span>
+                                    <span onClick={ChangeHideAndShow }style={{ padding: '0px 5px', cursor: 'pointer' }}>Đăng ký</span>
+                                    {HideAndShow && <RegisterForm onClose={ChangeHideAndShow}/>}
+                                </div>
                             </nav>
                         </div>
                     </div>
@@ -117,7 +136,7 @@ const Layout = () => {
             </header>
             {/* <!-- ***** Header Area End ***** --> */}
             <Outlet />
-            
+
             <footer>
                 <p>Design by Group1</p>
             </footer>

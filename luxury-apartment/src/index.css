@@ -17,7 +17,10 @@ code {
   --main-color: #f35525;
 
 }
-
+img{
+  object-fit: cover;
+  object-position: center;
+}
 .sub-header {
   background-color: #f8f8f8;
   /* Light gray background */

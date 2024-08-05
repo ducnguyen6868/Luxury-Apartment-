@@ -6,7 +6,7 @@ const DetailapartmentDetailss = ({ apartmentDetails }) => {
                 <h1>{apartmentDetails.name}</h1>
                 <img src={`../${apartmentDetails.images[0]}`} alt="apartment" className="apartmentDetails-image" />
                 <p>{apartmentDetails.description}</p>
-                <div className="apartmentDetails-location">
+                <div className="apartment-location">
                     <h3>Location:</h3>
                     <p>{apartmentDetails.location.address}, {apartmentDetails.location.city}, {apartmentDetails.location.state} {apartmentDetails.location.zipcode}, {apartmentDetails.location.country}</p>
                 </div>
@@ -26,7 +26,7 @@ const DetailapartmentDetailss = ({ apartmentDetails }) => {
                         <li>Parking: {apartmentDetails.features.parking}</li>
                     </ul>
                 </div>
-                <div className="apartmentDetails-amenities">
+                <div className="apartment-amenities">
                     <h3>Amenities:</h3>
                     <ul>
                         {apartmentDetails.amenities.map((amenity, index) => (
