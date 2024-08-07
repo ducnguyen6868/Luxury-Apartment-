@@ -12,7 +12,6 @@ import reportWebVitals from './reportWebVitals';
 
 export default function App() {
 
-
   return (
     <BrowserRouter>
       <Routes>
@@ -21,6 +20,7 @@ export default function App() {
           <Route path="list-apartments" element={< ListProducts />} />
           <Route path="detail-apartments/:id" element={< DetailProduct />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="searching/:keyword" element={<ListProducts/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

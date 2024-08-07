@@ -26,7 +26,7 @@ const ListProducts = () => {
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
-              <span className="breadcrumb" style={{ fontSize: "20px", color: "black", backgroundColor: "#fff", padding: "10px" }}><Link to="http://localhost:3000">Home</Link> / Properties</span>
+              <span style={{ fontSize: "20px", color: "black", backgroundColor: "#fff", padding: "10px" }}><Link to="http://localhost:3000">Home</Link> / Properties</span>
               <h3 style={{ fontSize: "50px", color: "#fff", margin: "0px", paddingTop: "20px" }}>Properties</h3>
             </div>
           </div>

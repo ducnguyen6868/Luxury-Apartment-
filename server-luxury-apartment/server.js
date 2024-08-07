@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const app = express();
 const port = process.env.PORT || 5000;
@@ -101,6 +100,8 @@ module.exports = User;
 
 // Routes
 app.get('/', async (req, res) => {
+  const {keyword}=req.query;
+  console.log("105",keyword);
   try {
     const apartments = await Apartment.find();
     //res.json(apartments);
@@ -182,6 +183,29 @@ app.post('/register', async (req, res) => {
 
   } catch (err) {
     console.log("Error :", err);
+  }
+});
+app.get('/search',async(req,res)=>{
+  const {keyword}=req.query;
+  //console.log("191",keyword);
+  //res.json(keyword);
+  try{
+    const apartment = await Apartment.find(
+      {
+        $or: [
+          { name: { $regex: keyword, $options: 'i' } },
+          { address: { $regex: keyword, $options: 'i' } },
+          // { price: { $regex: keyword, $options: 'i' } },
+          { area: { $regex: keyword, $options: 'i' } },
+          { type: { $regex: keyword, $options: 'i' } },
+          { district: { $regex: keyword, $options: 'i' } },
+          { ward: { $regex: keyword, $options: 'i' } },
+          ]
+          }
+    )
+    res.json(apartment);
+  }catch(err){
+    console.log(err);
   }
 });
 // Start the server

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ListApartments from '../components/ListApartments';
 import Contact from '../components/Contact';
+import Searching from '../components/SearchingApartments';
 const Home = () => {
     const [apartments, setApartments] = useState([]);
 
@@ -48,13 +49,18 @@ const Home = () => {
                 </div>
 
             </div>
-            <div className='section'>
+            <div className='section' style={{padding:'0 80px'}}>
                 <div className='section-container'>
                     <p>| Properties</p>
 
                     <h2>We Provide The Best <br />Property You Like</h2>
                 </div>
+                {<Searching/>}
+                <div>
+                    <h3>Gợi ý cho bạn</h3>
+                </div>
                 <div className='section-products'>
+                    
                     {apartments.length > 0 ? (
                         apartments.map(apartment => (
                             <ListApartments key={apartment._id} apartment={apartment} />
