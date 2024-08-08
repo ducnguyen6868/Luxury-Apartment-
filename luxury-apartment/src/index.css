@@ -17,6 +17,9 @@ code {
   --main-color: #f35525;
 
 }
+.hide{
+  opacity: 0;
+}
 img{
   object-fit: cover;
   object-position: center;

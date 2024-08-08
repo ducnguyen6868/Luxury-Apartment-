@@ -3,7 +3,7 @@ import '../css/form.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-const RegisterForm = ({ onClose }) => {
+const RegisterForm = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -19,6 +19,7 @@ const RegisterForm = ({ onClose }) => {
         if (password !== confirmPassword) {
             setCheckPassword(false);
         } else {
+            setCheckPassword(true);
             try {
                 const response = await axios.post("http://localhost:5000/register", { name, email, password });
                 if (response.data.result === 'false') {
@@ -38,14 +39,16 @@ const RegisterForm = ({ onClose }) => {
         if (checkResult) {
             const timer = setTimeout(() => {
                 setCheckResult(false);
-                onClose();
-                navigate('/');
+                navigate('/login')
             }, 1000); // 1000ms = 1s
 
             // Xóa bộ đếm thời gian khi component bị unmount hoặc checkResult thay đổi
             return () => clearTimeout(timer);
         }
-    }, [checkResult]);
+    }, [checkResult,navigate]);
+    const goBack=()=>{
+        navigate(-1);
+    }
     return (
         <>
             <section className='access-form'>
@@ -53,7 +56,7 @@ const RegisterForm = ({ onClose }) => {
                 <div className='form-container'>
                     {checkResult && (<h1 className={!checkResult ? 'hidden':''} style={{ textAlign: 'center', color: 'white', backgroundColor: 'green', position: 'absolute', zIndex: '4', width: '100%', padding: '5px 0px', transition:'opaciy 1s ease-in-out', fontSize:'20px'}}>Đăng ký thành công !!!</h1>)}
                     <form method='post' onSubmit={handleSubmit}>
-                        <i style={{ position: 'absolute', top: '0px', left: '0px', fontSize: 'larger', cursor: 'pointer', padding: '10px' }} onClick={onClose} className="fa-solid fa-delete-left"></i>
+                        <i style={{ position: 'absolute', top: '0px', left: '0px', fontSize: 'larger', cursor: 'pointer', padding: '10px' }} onClick={goBack}className="fa-solid fa-delete-left"></i>
                         <div className='box-name'>
                             <img style={{ width: '100px', height: 'auto' }} src='../logo.png' alt='Logo'></img>
                             <span style={{ fontWeight: 'bold', fontSize: 'larger', textTransform: 'uppercase' }}>Villa Agency</span>
@@ -66,7 +69,10 @@ const RegisterForm = ({ onClose }) => {
                         <div className='box-info'>
                             <label className='label'>Email:</label>
                             <input type='email' required value={email} onChange={(e) => { setEmail(e.target.value) }} />
-                            {checkEmail && (<span style={{ color: 'red' }}>Email đã được đăng ký</span>)}
+                            {checkEmail && (
+                                <div>
+                                    <span style={{ color: 'red' }}>Email đã được đăng ký</span>
+                                </div>)}
                         </div>
                         <div className='box-info'>
                             <label className='label'>Password:</label>
@@ -75,7 +81,7 @@ const RegisterForm = ({ onClose }) => {
                         <div className='box-info'>
                             <label className='label'>Confirm Password:</label>
                             <input type='password' required value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value) }} />
-                            {!checkPassword && (<span style={{ color: 'red' }}>Mật khẩu xác nhận không trùng khớp</span>)}
+                            {!checkPassword && (<div><span style={{ color: 'red' }}>Mật khẩu xác nhận không trùng khớp</span></div>)}
                         </div>
                         <div className='box-button' style={{ textAlign: 'center', margin: '10px 0px' }}>
                             <button id='button-login' type='submit' style={{ border: 'none', padding: '5px 20px', borderRadius: '10px', fontSize: 'larger', color: '#fff', backgroundColor: 'var(--main-color)' }}>Sign up</button>

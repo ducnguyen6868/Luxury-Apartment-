@@ -70,6 +70,12 @@ const EmployeeSchema = mongoose.Schema(
   {
     name: String,
     email: String,
+    password: String,
+    role: String,
+    avatar:{
+      type:String,
+      default:'logo.png'
+    } 
   }
 );
 const Employee = mongoose.model("Employee", EmployeeSchema);
@@ -100,8 +106,6 @@ module.exports = User;
 
 // Routes
 app.get('/', async (req, res) => {
-  const {keyword}=req.query;
-  console.log("105",keyword);
   try {
     const apartments = await Apartment.find();
     //res.json(apartments);
@@ -135,20 +139,20 @@ app.post('/login', async (req, res) => {
     return res.status(400).json({ success: false, message: 'Email and password are required' });
   }
   //console.log(email , password); //OK
-  try{
+  try {
     const user = await User.findOne({ email: email });
     if (!user) {
-      return res.status(400).json({ success: false, message: 'This user does not exist' });
-    }else{
-      if(password===user.password){
+      return res.json({ success: false, message: 'Invalid email' });
+    } else {
+      if (password === user.password) {
         const token = jwt.sign({ userId: user._id }, 'secret', { expiresIn: '1h' });
         res.json({ success: true, token });
-      }else{
+      } else {
         return res.json({ success: false, message: 'Invalid password' });
       }
     }
 
-  }catch(err){
+  } catch (err) {
     console.log("Error :", err);
   }
   //console.log(user); //OK
@@ -162,7 +166,7 @@ app.post('/login', async (req, res) => {
   //   return res.status(400).json({ success: false, message: 'Invalid credentials' });
   // }
 
- 
+
 });
 app.post('/register', async (req, res) => {
   const { name, email, password } = req.body;
@@ -185,11 +189,11 @@ app.post('/register', async (req, res) => {
     console.log("Error :", err);
   }
 });
-app.get('/search',async(req,res)=>{
-  const {keyword}=req.query;
+app.get('/search', async (req, res) => {
+  const { keyword } = req.query;
   //console.log("191",keyword);
   //res.json(keyword);
-  try{
+  try {
     const apartment = await Apartment.find(
       {
         $or: [
@@ -200,15 +204,43 @@ app.get('/search',async(req,res)=>{
           { type: { $regex: keyword, $options: 'i' } },
           { district: { $regex: keyword, $options: 'i' } },
           { ward: { $regex: keyword, $options: 'i' } },
-          ]
-          }
+        ]
+      }
     )
     res.json(apartment);
-  }catch(err){
+  } catch (err) {
+    console.log(err);
+  }
+});
+app.get('/user/:id', async (req, res) => {
+  const userId = req.params.id;
+  // console.log(userId);
+  try {
+    const infoUser = await User.findById(userId);
+    res.json(infoUser);
+  } catch (err) {
     console.log(err);
   }
 });
 // Start the server
+app.post("/admin/login", async (req, res) => {
+  const {email, password} = req.body;
+  try {
+    const employee = await Employee.findOne({
+      email: email,
+      password: password
+    })
+    if(employee){
+      res.json(employee);
+
+    }else{
+      res.json();
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json("No recivie request");
+  }
+})
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });

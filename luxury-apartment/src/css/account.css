@@ -1,0 +1,31 @@
+.account{
+    position:relative;
+    cursor:pointer;
+    height:100%;
+}
+.account:hover .account-option{
+    display:block;
+}
+.account-option{
+    position: absolute;
+    top:60px;
+    padding:0;
+    background-color: aliceblue;
+    border-radius: 0 0 5px 5px;
+    width:170px;
+    display:none;
+}
+.account-option>li{
+    list-style-type: none;
+    cursor:pointer;
+    padding:3px 10px;
+    border-bottom: solid 1px gray;
+
+}
+.account-option>li:hover{
+    background-color: azure;
+    color:var(--main-color);
+}
+.account-option>li>i{
+    padding-right:10px;
+}

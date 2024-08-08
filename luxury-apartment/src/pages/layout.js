@@ -1,30 +1,43 @@
 // src/pages/layout.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet, Link } from "react-router-dom";
 import '../css/home.css';
 import '../css/flex-slider.css';
-// import '../css/fontawesome.css';
-// import '../css/owl.css';
-// import '../css/templatemo-villa-agency.css';
-// import '../css/animate.css';
-import LoginForm from '../components/LoginForm';
-import RegisterForm from '../components/RegisterForm';
-const Layout = () => {
-    const [activeLink, setActiveLink] = useState('/');
+import axios from 'axios';
+import Access from '../components/Access';
+import Account from '../components/Account';
+import useAuth from '../hooks/useAuth';
 
+const Layout = () => {
+    const [isLogin, setLogin] = useState(false);
+    const [activeLink, setActiveLink] = useState('/');
+    const [infoUser , setInfoUser] = useState();
     const handleLinkClick = (path) => {
         setActiveLink(path);
     };
-    // const [showLogin, setShowLogin] = useState(false);
-    // const [ShowRegister, setShowRegister] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
-    const [HideAndShow , setHideAndShow]= useState(false);
-    const toggleVisibility = () => {
-        setIsVisible(!isVisible);
-    };
-    const ChangeHideAndShow = () => {
-        setHideAndShow(!HideAndShow);
-    };
+    const {user ,isLoading} = useAuth();
+    console.log("Current user",user);
+    useEffect(() => {
+        if(user){
+            console.log("User found",user);
+            setLogin(true);
+            const  getUser = async ()=> {
+                try{
+                    const response = await axios.get(`http://localhost:5000/user/${user.userId}`);
+                    setInfoUser(response.data);
+                    console.log(response.data);
+                }catch(err){
+                    console.log(err);
+                }
+            }
+            getUser();
+        }else{
+            setLogin(false);
+        }
+    },[user]);
+    if (isLoading) {
+        return <p>Loading...</p>; // Hiển thị trạng thái tải khi isLoading là true
+    }
     return (
         <>
             {/* <!-- ***** Preloader Start ***** --> */}
@@ -122,13 +135,7 @@ const Layout = () => {
 
                                 </ul>
                                 {/* <!-- ***** Menu End ***** --> */}
-                                <div>
-                                    <span onClick={toggleVisibility} style={{ padding: '0px 5px', cursor: 'pointer' }}>Đăng nhập</span>
-                                    {isVisible && <LoginForm onClose={toggleVisibility} />}
-                                    <span style={{ padding: '0px 5px', cursor: 'pointer' }}>|</span>
-                                    <span onClick={ChangeHideAndShow }style={{ padding: '0px 5px', cursor: 'pointer' }}>Đăng ký</span>
-                                    {HideAndShow && <RegisterForm onClose={ChangeHideAndShow}/>}
-                                </div>
+                                {isLogin ? (<Account infoUser={infoUser}/>) : (<Access />)}
                             </nav>
                         </div>
                     </div>

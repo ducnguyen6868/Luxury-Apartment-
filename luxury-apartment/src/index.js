@@ -6,6 +6,10 @@ import Home from "./pages/home";
 import ListProducts from "./pages/listProducts";
 import DetailProduct from "./pages/detailProduct";
 import Contact from "./pages/contact";
+import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
+import AdminLogin from './components/Admin/Login';
+import Dashboard from './components/Admin/Dashboard';
 import './index.css';
 import './js/loader';
 import reportWebVitals from './reportWebVitals';
@@ -20,7 +24,14 @@ export default function App() {
           <Route path="list-apartments" element={< ListProducts />} />
           <Route path="detail-apartments/:id" element={< DetailProduct />} />
           <Route path="contact" element={<Contact />} />
-          <Route path="searching/:keyword" element={<ListProducts/>}/>
+          <Route path="searching" element={<ListProducts/>}/>
+          <Route path="login" element={<LoginForm/>}/>
+          <Route path="register" element={<RegisterForm/>}/>
+          
+        </Route>
+        <Route path='admin' >
+          <Route path='login' element={<AdminLogin/>}/>
+          <Route path='dashboard' element={<Dashboard/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

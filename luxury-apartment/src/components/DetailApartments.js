@@ -79,13 +79,14 @@ const DetailapartmentDetailss = ({ apartmentDetails }) => {
                     <div className="apartment-video-tour">
                         <h3>Video Tour:</h3>
                         <iframe
-                            src={apartmentDetails.videoTour}
+                            src={'https://www.youtube.com/watch?v=H-5SY_AVpyQ'}
                             title="Video Tour"
                             width="100%"
                             height="500px"
                             style={{ border: '0', borderRadius: '10px', boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.15)' }}
                             allowFullScreen
                         ></iframe>
+                        
                     </div>
                 )}
             </div>
