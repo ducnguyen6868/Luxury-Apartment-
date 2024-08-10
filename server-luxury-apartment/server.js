@@ -18,6 +18,24 @@ connection.once('open', () => {
 });
 
 // Define a schema and model
+
+const EmployeeSchema = mongoose.Schema(
+  {
+    name: String,
+    email: String,
+    password: String,
+    role: String,
+    avatar: {
+      type: String,
+      default: 'logo.png'
+    },
+    phone: String,
+    salary: Number
+  }
+);
+const Employee = mongoose.model("Employee", EmployeeSchema);
+module.exports = Employee;
+
 const LocationSchema = new mongoose.Schema({
   address: String,
   city: String,
@@ -43,12 +61,6 @@ const NearbyFacilitiesSchema = new mongoose.Schema({
   publicTransport: [String],
 });
 
-const ContactInfoSchema = new mongoose.Schema({
-  agentName: String,
-  agentPhone: String,
-  agentEmail: String,
-});
-
 const ApartmentSchema = new mongoose.Schema({
   name: String,
   location: LocationSchema,
@@ -59,27 +71,15 @@ const ApartmentSchema = new mongoose.Schema({
   images: [String],
   videoTour: String,
   nearbyFacilities: NearbyFacilitiesSchema,
-  contactInfo: ContactInfoSchema,
+  contactInfo: {
+    type : mongoose.Schema.Types.ObjectId,
+    ref: 'Employee'
+  },
 });
 
 const Apartment = mongoose.model('Apartment', ApartmentSchema);
 
 module.exports = Apartment;
-
-const EmployeeSchema = mongoose.Schema(
-  {
-    name: String,
-    email: String,
-    password: String,
-    role: String,
-    avatar:{
-      type:String,
-      default:'logo.png'
-    } 
-  }
-);
-const Employee = mongoose.model("Employee", EmployeeSchema);
-module.exports = Employee;
 // UserSchema
 const UserSchema = new mongoose.Schema({
   name: {
@@ -103,7 +103,26 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', UserSchema);
 module.exports = User;
-
+const BookingSchema = mongoose.Schema({
+  apartment: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Apartment'
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  time: {
+    type: Date
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'confirmed', 'cancelled'],
+    default: 'pending'
+  }
+})
+const Booking = mongoose.model('Booking', BookingSchema);
+module.exports=Booking;
 // Routes
 app.get('/', async (req, res) => {
   try {
@@ -126,7 +145,8 @@ app.get('/contact', async (req, res) => {
 });
 app.get('/apartment/:id', async (req, res) => {
   try {
-    const apartment = await Apartment.findById(req.params.id);
+    const apartment = await Apartment.findById(req.params.id).populate('contactInfo');
+    //console.log(apartment);
     res.json(apartment);
   }
   catch (err) {
@@ -224,16 +244,16 @@ app.get('/user/:id', async (req, res) => {
 });
 // Start the server
 app.post("/admin/login", async (req, res) => {
-  const {email, password} = req.body;
+  const { email, password } = req.body;
   try {
     const employee = await Employee.findOne({
       email: email,
       password: password
     })
-    if(employee){
+    if (employee) {
       res.json(employee);
 
-    }else{
+    } else {
       res.json();
     }
   } catch (err) {

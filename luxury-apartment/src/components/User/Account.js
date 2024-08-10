@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import '../css/account.css';
+import '../../css/account.css';
 const Account =({infoUser})=>{
     const navigate = useNavigate();
     const LogOut=()=>{

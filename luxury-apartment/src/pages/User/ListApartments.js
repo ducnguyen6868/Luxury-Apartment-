@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import '../css/property.css';
-import ListApartments from '../components/ListApartments';
+import '../../css/property.css';
+import ListApartments from '../../components/User/ListApartments';
 
-const ListProducts = () => {
+const ListsApartment = () => {
   const [apartments, setApartments] = useState([]);
   useEffect(() => {
     const fetchApartments = async () => {
@@ -46,4 +46,4 @@ const ListProducts = () => {
   );
 };
 
-export default ListProducts;
+export default ListsApartment;

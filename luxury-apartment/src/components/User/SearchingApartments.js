@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import ListApartments from './ListApartments';
+import ListApartments from '../../components/User/ListApartments';
 const Searching = () => {
     const [keyword, setKeyword] = useState("");
     const [apartments, setApartments] = useState();

@@ -1,10 +1,10 @@
-const DetailapartmentDetailss = ({ apartmentDetails }) => {
+const Detailapartment = ({ apartmentDetails}) => {
 
     return (
         <>
             <div className="apartment-details">
                 <h1>{apartmentDetails.name}</h1>
-                <img src={`../${apartmentDetails.images[0]}`} alt="apartment" className="apartmentDetails-image" />
+                <img src={`../../${apartmentDetails.images[0]}`} alt="apartment" className="apartmentDetails-image" />
                 <p>{apartmentDetails.description}</p>
                 <div className="apartment-location">
                     <h3>Location:</h3>
@@ -36,9 +36,8 @@ const DetailapartmentDetailss = ({ apartmentDetails }) => {
                 </div>
                 <div className="apartment-contact">
                     <h3>Contact Info:</h3>
-                    <p>Agent: {apartmentDetails.contactInfo.agentName}</p>
-                    <p>Phone: {apartmentDetails.contactInfo.agentPhone}</p>
-                    <p>Email: {apartmentDetails.contactInfo.agentEmail}</p>
+                    <p>{apartmentDetails.contactInfo.name}</p>
+                    <p>{apartmentDetails.contactInfo.email}</p>
                 </div>
                 <div className="apartment-nearby-facilities">
                     <h3>Nearby Facilities:</h3>
@@ -89,8 +88,11 @@ const DetailapartmentDetailss = ({ apartmentDetails }) => {
                         
                     </div>
                 )}
+                <div style={{textAlign:'center', margin:'20px 0px'}}>
+                    <button style={{border:'none', padding:'5px 30px', fontSize:'large', backgroundColor:'green', color:'white', borderRadius:'10pxx '}}>Chỉnh sửa thông tin</button>
+                </div>
             </div>
         </>
     )
 }
-export default DetailapartmentDetailss;
+export default Detailapartment;

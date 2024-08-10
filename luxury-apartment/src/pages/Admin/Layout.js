@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-const Dashboard = () => {
+import { Outlet,Link } from "react-router-dom";
+const Layout = () => {
     return (
         <>
             <header style={{ backgroundColor: '#d2dae1', display: 'flex', justifyContent: 'space-around', alignItems: 'center' }} className="navbar-dark sticky-top  flex-md-nowrap p-0 shadow">
@@ -46,7 +46,7 @@ const Dashboard = () => {
                                     </Link>
                                 </li>
                                 <li className="nav-item"style={{padding:'10px 20px' , cursor:'pointer'}}>
-                                    <Link style={{fontSize:'16px'}} className="" to="../product">
+                                    <Link style={{fontSize:'16px'}} className="" to="apartment">
                                     <svg style={{marginRight:'10px'}} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-shopping-cart" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                                         Products
                                     </Link>
@@ -107,30 +107,11 @@ const Dashboard = () => {
                     </nav>
 
                     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4"><div className="chartjs-size-monitor"><div className="chartjs-size-monitor-expand"><div className=""></div></div><div className="chartjs-size-monitor-shrink"><div className=""></div></div></div>
-                        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                            <h1 className="h2">Dashboard</h1>
-                            <div className="btn-toolbar mb-2 mb-md-0">
-                                <div className="btn-group me-2">
-                                    <button type="button" className="btn btn-sm btn-outline-secondary">Share</button>
-                                    <button type="button" className="btn btn-sm btn-outline-secondary">Export</button>
-                                </div>
-                                <button type="button" className="btn btn-sm btn-outline-secondary dropdown-toggle">
-                                    <svg style={{marginRight:'10px'}} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-calendar" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                    This week
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* <canvas className="my-4 w-100 chartjs-render-monitor" id="myChart" width="460" height="194" style={{display: 'block', width: '460px', height: '194px'}}></canvas> */}
-
-                        <h2>Section title</h2>
-                        <div className="table-responsive">
-
-                        </div>
+                        <Outlet/>
                     </main>
                 </div>
             </div>
         </>
     )
 };
-export default Dashboard;
+export default Layout;

@@ -1,6 +1,6 @@
 // src/components/ApartmentDetails.js
 import {Link} from 'react-router-dom';
-import '../css/ListApartments.css';
+import '../../css/ListApartments.css';
 
 const ListApartments = ({ apartment }) => {
   return (

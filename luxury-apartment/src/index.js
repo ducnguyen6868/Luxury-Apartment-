@@ -1,15 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./pages/layout";
-import Home from "./pages/home";
-import ListProducts from "./pages/listProducts";
-import DetailProduct from "./pages/detailProduct";
-import Contact from "./pages/contact";
-import LoginForm from './components/LoginForm';
-import RegisterForm from './components/RegisterForm';
+import Layout from "./pages/User/layout";
+import Home from "./pages/User/home";
+import ListApartments from "./pages/User/ListApartments";
+import DetailsApartment from "./pages/User/DetailApartment";
+import Contact from "./components/User/Contact";
+import LoginForm from './components/User/LoginForm';
+import RegisterForm from './components/User/RegisterForm';
 import AdminLogin from './components/Admin/Login';
-import Dashboard from './components/Admin/Dashboard';
+import LayoutAdmin from './pages/Admin/Layout';
+import AdminProduct from './pages/Admin/ListProduct';
+import AdminDetailProduct from './pages/Admin/DetailsApartment';
 import './index.css';
 import './js/loader';
 import reportWebVitals from './reportWebVitals';
@@ -21,17 +23,19 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="list-apartments" element={< ListProducts />} />
-          <Route path="detail-apartments/:id" element={< DetailProduct />} />
+          <Route path="list-apartments" element={< ListApartments />} />
+          <Route path="detail-apartments/:id" element={< DetailsApartment />} />
           <Route path="contact" element={<Contact />} />
-          <Route path="searching" element={<ListProducts/>}/>
-          <Route path="login" element={<LoginForm/>}/>
-          <Route path="register" element={<RegisterForm/>}/>
-          
+          <Route path="searching" element={<ListApartments />} />
+          <Route path="login" element={<LoginForm />} />
+          <Route path="register" element={<RegisterForm />} />
+
         </Route>
-        <Route path='admin' >
-          <Route path='login' element={<AdminLogin/>}/>
-          <Route path='dashboard' element={<Dashboard/>}/>
+        <Route path='admin/login' element={<AdminLogin />} />
+        <Route path='admin' element={<LayoutAdmin/>}>
+          {/* <Route path='dashboard' element={<Dashboard />} /> */}
+          <Route path='apartment' element={<AdminProduct />} />
+          <Route path='apartment/:id' element={<AdminDetailProduct />} />        
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import DetailApartments from '../components/DetailApartments';
+import DetailApartments from '../../components/Admin/DetailsApartment';
 import { useParams } from 'react-router-dom';
 
 const DetailApartment = () => {

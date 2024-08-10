@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import ListApartments from '../components/ListApartments';
-import Contact from '../components/Contact';
-import Searching from '../components/SearchingApartments';
+import ListApartments from '../../components/User/ListApartments';
+import Contact from '../../components/User/Contact';
+import Searching from '../../components/User/SearchingApartments';
 const Home = () => {
     const [apartments, setApartments] = useState([]);
 

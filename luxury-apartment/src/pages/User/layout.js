@@ -1,12 +1,12 @@
 // src/pages/layout.js
 import React, { useEffect, useState } from 'react';
 import { Outlet, Link } from "react-router-dom";
-import '../css/home.css';
-import '../css/flex-slider.css';
+import '../../css/home.css';
+import '../../css/flex-slider.css';
 import axios from 'axios';
-import Access from '../components/Access';
-import Account from '../components/Account';
-import useAuth from '../hooks/useAuth';
+import Access from '../../components/User/Access';
+import Account from '../../components/User/Account';
+import useAuth from '../../hooks/useAuth';
 
 const Layout = () => {
     const [isLogin, setLogin] = useState(false);
