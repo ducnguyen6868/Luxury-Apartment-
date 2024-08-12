@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom';
 const DetailApartment = () => {
   const { id } = useParams();
   const [apartmentDetails, setApartmentDetails] = useState(null); // Khởi tạo với null
-
   useEffect(() => {
     const fetchDetailApartments = async () => {
       try {

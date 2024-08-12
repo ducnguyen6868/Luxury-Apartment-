@@ -12,7 +12,7 @@ const DetailApartment = () => {
         const response = await fetch(`http://localhost:5000/apartment/${id}`);
         if (response.ok) {
           const data = await response.json();
-          console.log(data); // Đảm bảo có dữ liệu
+          //console.log(data); // Đảm bảo có dữ liệu
           setApartmentDetails(data);
         } else {
           console.error('Server response was not ok');
@@ -29,9 +29,11 @@ const DetailApartment = () => {
     <>
       {apartmentDetails ? (
         <DetailApartments key={apartmentDetails._id} apartmentDetails={apartmentDetails} />
+
       ) : (
         <div>Loading...</div>
       )}
+      
     </>
   );
 };

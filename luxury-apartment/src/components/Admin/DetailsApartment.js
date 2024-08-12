@@ -1,5 +1,13 @@
+import {useState} from 'react';
+import EditApartmentForm from './EditApartmentForm';
 const Detailapartment = ({ apartmentDetails}) => {
-
+    const [edit, setEdit] = useState(false);
+    async function ShowEditForm(){
+        setEdit(true);
+    }
+    async function HideEditForm(){
+        setEdit(false);
+    }
     return (
         <>
             <div className="apartment-details">
@@ -89,9 +97,10 @@ const Detailapartment = ({ apartmentDetails}) => {
                     </div>
                 )}
                 <div style={{textAlign:'center', margin:'20px 0px'}}>
-                    <button style={{border:'none', padding:'5px 30px', fontSize:'large', backgroundColor:'green', color:'white', borderRadius:'10pxx '}}>Chỉnh sửa thông tin</button>
+                    <button onClick={ShowEditForm} style={{border:'none', padding:'5px 30px', fontSize:'large', backgroundColor:'green', color:'white', borderRadius:'10pxx '}}>Edit Apartment</button>
                 </div>
             </div>
+            {edit && (<EditApartmentForm onClose={HideEditForm}apartmentDetails={apartmentDetails}/>)}
         </>
     )
 }

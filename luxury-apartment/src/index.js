@@ -10,8 +10,8 @@ import LoginForm from './components/User/LoginForm';
 import RegisterForm from './components/User/RegisterForm';
 import AdminLogin from './components/Admin/Login';
 import LayoutAdmin from './pages/Admin/Layout';
-import AdminProduct from './pages/Admin/ListProduct';
-import AdminDetailProduct from './pages/Admin/DetailsApartment';
+import AdminApartment from './pages/Admin/ListApartment';
+import AdminDetailApartment from './pages/Admin/DetailsApartment';
 import './index.css';
 import './js/loader';
 import reportWebVitals from './reportWebVitals';
@@ -34,8 +34,8 @@ export default function App() {
         <Route path='admin/login' element={<AdminLogin />} />
         <Route path='admin' element={<LayoutAdmin/>}>
           {/* <Route path='dashboard' element={<Dashboard />} /> */}
-          <Route path='apartment' element={<AdminProduct />} />
-          <Route path='apartment/:id' element={<AdminDetailProduct />} />        
+          <Route path='apartment' element={<AdminApartment />} />
+          <Route path='apartment/:id' element={<AdminDetailApartment />} />        
         </Route>
       </Routes>
     </BrowserRouter>

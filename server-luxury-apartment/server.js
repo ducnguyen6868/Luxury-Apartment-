@@ -4,7 +4,8 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const app = express();
 const port = process.env.PORT || 5000;
-
+const multer= require('multer');
+const upload= multer();
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -260,6 +261,24 @@ app.post("/admin/login", async (req, res) => {
     console.log(err);
     res.status(500).json("No recivie request");
   }
+});
+app.delete('/apartment/:id',async(req,res)=>{
+  let id= req.params;
+  id=id.id;
+  // console.log(id);
+  // console.log(typeof(id));
+  try{
+    await Apartment.findByIdAndDelete(id);
+    console.log('Delete sucessfully !');
+    res.json({result:'ok'});
+  }catch(err){
+    console.log("err",err);
+    res.json({result:'error'});
+  }
+});
+app.post('/add-apartment',upload.none(), async(req,res)=>{
+  const {formData}= req.body;
+  console.log(formData);
 })
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
