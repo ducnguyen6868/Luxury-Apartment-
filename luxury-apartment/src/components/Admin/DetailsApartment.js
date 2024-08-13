@@ -12,7 +12,7 @@ const Detailapartment = ({ apartmentDetails}) => {
         <>
             <div className="apartment-details">
                 <h1>{apartmentDetails.name}</h1>
-                <img src={`../../${apartmentDetails.images[0]}`} alt="apartment" className="apartmentDetails-image" />
+                <img src={`${apartmentDetails.images[0]}`} alt="apartment" className="apartmentDetails-image" />
                 <p>{apartmentDetails.description}</p>
                 <div className="apartment-location">
                     <h3>Location:</h3>
@@ -20,7 +20,7 @@ const Detailapartment = ({ apartmentDetails}) => {
                 </div>
                 <div className="apartment-price">
                     <h3>Price:</h3>
-                    <p>${apartmentDetails.price.toLocaleString()}</p>
+                    <p>${apartmentDetails.price}</p>
                 </div>
                 <div className="apartment-features">
                     <h3>Features:</h3>
@@ -86,7 +86,7 @@ const Detailapartment = ({ apartmentDetails}) => {
                     <div className="apartment-video-tour">
                         <h3>Video Tour:</h3>
                         <iframe
-                            src={'https://www.youtube.com/watch?v=H-5SY_AVpyQ'}
+                            src={apartmentDetails.videoTour }
                             title="Video Tour"
                             width="100%"
                             height="500px"

@@ -12,7 +12,7 @@ const Detailapartment = ({ apartmentDetails}) => {
                 </div>
                 <div className="apartment-price">
                     <h3>Price:</h3>
-                    <p>${apartmentDetails.price.toLocaleString()}</p>
+                    <p>${apartmentDetails.price}</p>
                 </div>
                 <div className="apartment-features">
                     <h3>Features:</h3>

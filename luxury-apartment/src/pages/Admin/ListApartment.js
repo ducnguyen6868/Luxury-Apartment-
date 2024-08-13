@@ -28,7 +28,7 @@ const AdminProduct = () => {
         <>
            {addForm && (<AddForm onClose={HideAddForm}/>) }
             <div style={{marginTop:'20px',textAlign:'right'}}>
-                <span style={{float:'left',fontSize:'larger'}}>Danh sách căn hộ hiện tại</span>
+                <span style={{float:'left',fontSize:'larger'}}>Danh sách căn hộ hiện tại ({apartments.length})</span>
                 <button onClick={ShowAddForm} style={{ fontSize:'medium', border:'none',color:'var(--main-color'}}>+ Add apartment</button>
                 <div style={{clear:'float'}}></div>
             </div>
@@ -40,7 +40,8 @@ const AdminProduct = () => {
                 ) : (
                     <p>Loadding apartments ...</p>
                 )}
-            </div>        
+            </div> 
+                  
         </>
     )
 }

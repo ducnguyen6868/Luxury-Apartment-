@@ -23,7 +23,7 @@ const ListApartments = ({ apartment }) => {
         {/* {apartment.images.map((image, index) => (
         <image key={index} src={image} alt="Product View"/>
       ))} */}
-        <img className="apartment-image" src={`../../${apartment.images[0]}`} alt="Product View" />
+        <img className="apartment-image" src={`${apartment.images[0]}`} alt="Product View" />
         <h2 className="apartment-name">{apartment.name}</h2>
         <p className="apartment-description">{apartment.description}</p>
 
@@ -33,7 +33,7 @@ const ListApartments = ({ apartment }) => {
         <p className="apartment-country">{apartment.location.country}</p>
 
         <h3 className="apartment-price-title">Price</h3>
-        <p className="apartment-price">${apartment.price.toLocaleString()}</p>
+        <p className="apartment-price">${apartment.price}</p>
         <p style={{ borderTop: 'solid 1px gray', paddingTop: '20px', textAlign: 'center', margin: '20px 0px', display: 'flex', justifyContent: 'space-around', justifyItems: 'center' }}>
           <Link to={`${apartment._id}`} style={{ textDecoration: 'none',padding:'5px 10px', backgroundColor: 'green', fontSize: 'medium', color: 'white', borderRadius: '10px' }}>View Details</Link>
           <button onClick={DeleteApartment} style={{ border: 'none', fontSize: 'medium', backgroundColor: 'red', color: 'white', borderRadius: '10px ' }}>Delete Apartmemt</button>

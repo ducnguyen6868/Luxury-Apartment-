@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import '../../css/AddApartmentForm.css'; // Import file CSS
 
-const InsertApartmentForm = ({ onClose }) => {
+const AddApartmentForm = ({ onClose }) => {
+    const [employees, setEmployee] = useState();
+    const [result , setResult]= useState(false);
     const [apartment, setApartment] = useState({
         name: '',
         location: {
@@ -34,7 +36,36 @@ const InsertApartmentForm = ({ onClose }) => {
         },
         contactInfo: '', // ID of the Employee
     });
+    useEffect(()=>{
+        const getEmployee = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/contact');
+                setEmployee(response.data);
+                console.log(response.data);
+            } catch (err) {
+                console.error('Error fetching employee:', err);
+            }
+        }
+        getEmployee();
 
+    },[]);
+    useEffect(()=>{
+        if(result){
+            setTimeout(
+                ()=>{
+                    window.location.reload();
+                },1000
+            )
+        }
+    },[result]);
+    useEffect(() => {
+        if (employees && employees.length > 0) {
+            setApartment((prevApartment) => ({
+                ...prevApartment,
+                contactInfo: employees[0]._id,
+            }));
+        }
+    }, [employees]);    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setApartment((prevApartment) => ({
@@ -55,31 +86,34 @@ const InsertApartmentForm = ({ onClose }) => {
     };
 
     const handleFileChange = (e, fileKey) => {
-        const file = e.target.files[0];
+        const files = Array.from(e.target.files); // Lấy tất cả các file
         setApartment((prevApartment) => ({
             ...prevApartment,
-            [fileKey]: file,
+            [fileKey]: files, // Lưu mảng các file
         }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
+
         for (let key in apartment) {
-            if (typeof apartment[key] === 'object' && apartment[key] !== null) {
-                if (apartment[key] instanceof File) {
-                    formData.append(key, apartment[key]);
-                } else {
-                    for (let nestedKey in apartment[key]) {
-                        formData.append(`${key}.${nestedKey}`, apartment[key][nestedKey]);
-                    }
+            if (key === 'images') {
+                apartment[key].forEach((file, index) => {
+                    formData.append('images', file); // Phải trùng tên với cấu hình Multer
+                });
+            } else if (key === 'videoTour') {
+                formData.append('videoTour', apartment[key][0]); // Chỉ một file video
+            } else if (typeof apartment[key] === 'object' && apartment[key] !== null) {
+                for (let nestedKey in apartment[key]) {
+                    formData.append(`${key}.${nestedKey}`, apartment[key][nestedKey]);
                 }
             } else {
                 formData.append(key, apartment[key]);
             }
         }
-        formData.forEach((value, key) => {
-            console.log(key, value);
+        formData.forEach((value,key)=>{
+            console.log(key,value);
         })
         try {
             const response = await axios.post('http://localhost:5000/add-apartment', formData, {
@@ -89,6 +123,7 @@ const InsertApartmentForm = ({ onClose }) => {
             });
             if (response.data.success) {
                 alert('Apartment inserted successfully');
+                setResult(true);
             } else {
                 alert('Failed to insert apartment');
             }
@@ -96,23 +131,23 @@ const InsertApartmentForm = ({ onClose }) => {
             console.error('Error inserting apartment:', err);
         }
     };
-
+   
     return (
         <>
             <div className='add-apartment-container'>
-                <form onSubmit={handleSubmit} className="insert-apartment-form">
+                <form onSubmit={handleSubmit} className="insert-apartment-form" encType="multipart/form-data">
                     <div>
                         <i onClick={onClose} className="fa-regular fa-circle-xmark"></i>
                         <h2 style={{ textAlign: 'center' }}>Add Apartment</h2>
                     </div>
 
-                    <div style={{ display: 'grid', gap:'10px', gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr)' }}>
+                    <div style={{ display: 'grid', gap: '10px', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr)' }}>
                         <div>
                             <div className='info-apartment-box'>
                                 <label>Name:</label>
                                 <br />
 
-                                <input
+                                <input required 
                                     type="text"
                                     name="name"
                                     value={apartment.name}
@@ -125,7 +160,7 @@ const InsertApartmentForm = ({ onClose }) => {
                                 <h3>Location</h3>
                                 <label>Address:</label>
                                 <br />
-                                <input
+                                <input required 
                                     type="text"
                                     name="address"
                                     value={apartment.location.address}
@@ -134,7 +169,7 @@ const InsertApartmentForm = ({ onClose }) => {
                                 />
                                 <label>City:</label>
                                 <br />
-                                <input
+                                <input required 
                                     type="text"
                                     name="city"
                                     value={apartment.location.city}
@@ -143,7 +178,7 @@ const InsertApartmentForm = ({ onClose }) => {
                                 />
                                 <label>State:</label>
                                 <br />
-                                <input
+                                <input required 
                                     type="text"
                                     name="state"
                                     value={apartment.location.state}
@@ -152,7 +187,7 @@ const InsertApartmentForm = ({ onClose }) => {
                                 />
                                 <label>Zipcode:</label>
                                 <br />
-                                <input
+                                <input required 
                                     type="text"
                                     name="zipcode"
                                     value={apartment.location.zipcode}
@@ -161,7 +196,7 @@ const InsertApartmentForm = ({ onClose }) => {
                                 />
                                 <label>Country:</label>
                                 <br />
-                                <input
+                                <input required 
                                     type="text"
                                     name="country"
                                     value={apartment.location.country}
@@ -173,7 +208,7 @@ const InsertApartmentForm = ({ onClose }) => {
                             <div className='info-apartment-box'>
                                 <label>Price:</label>
                                 <br />
-                                <input
+                                <input required 
                                     type="number"
                                     name="price"
                                     value={apartment.price}
@@ -198,7 +233,7 @@ const InsertApartmentForm = ({ onClose }) => {
                             <h3>Features</h3>
                             <label>Area:</label>
                             <br />
-                            <input
+                            <input required 
                                 type="text"
                                 name="area"
                                 value={apartment.features.area}
@@ -207,7 +242,7 @@ const InsertApartmentForm = ({ onClose }) => {
                             />
                             <label>Bedrooms:</label>
                             <br />
-                            <input
+                            <input required 
                                 type="number"
                                 name="bedrooms"
                                 value={apartment.features.bedrooms}
@@ -216,7 +251,7 @@ const InsertApartmentForm = ({ onClose }) => {
                             />
                             <label>Bathrooms:</label>
                             <br />
-                            <input
+                            <input required 
                                 type="number"
                                 name="bathrooms"
                                 value={apartment.features.bathrooms}
@@ -225,7 +260,7 @@ const InsertApartmentForm = ({ onClose }) => {
                             />
                             <label>Balconies:</label>
                             <br />
-                            <input
+                            <input required 
                                 type="number"
                                 name="balconies"
                                 value={apartment.features.balconies}
@@ -234,7 +269,7 @@ const InsertApartmentForm = ({ onClose }) => {
                             />
                             <label>Floor:</label>
                             <br />
-                            <input
+                            <input required 
                                 type="text"
                                 name="floor"
                                 value={apartment.features.floor}
@@ -243,7 +278,7 @@ const InsertApartmentForm = ({ onClose }) => {
                             />
                             <label>Furnishing:</label>
                             <br />
-                            <input
+                            <input required 
                                 type="text"
                                 name="furnishing"
                                 value={apartment.features.furnishing}
@@ -252,7 +287,7 @@ const InsertApartmentForm = ({ onClose }) => {
                             />
                             <label>Parking:</label>
                             <br />
-                            <input
+                            <input required 
                                 type="text"
                                 name="parking"
                                 value={apartment.features.parking}
@@ -262,7 +297,7 @@ const InsertApartmentForm = ({ onClose }) => {
 
                             <label>Amenities (comma separated):</label>
                             <br />
-                            <input
+                            <input required 
                                 type="text"
                                 name="amenities"
                                 value={apartment.amenities}
@@ -272,7 +307,7 @@ const InsertApartmentForm = ({ onClose }) => {
 
                             <label>Images:</label>
                             <br />
-                            <input
+                            <input required 
                                 type="file"
                                 name="images"
                                 onChange={(e) => handleFileChange(e, 'images')}
@@ -282,7 +317,7 @@ const InsertApartmentForm = ({ onClose }) => {
 
                             <label>Video Tour:</label>
                             <br />
-                            <input
+                            <input required 
                                 type="file"
                                 name="videoTour"
                                 onChange={(e) => handleFileChange(e, 'videoTour')}
@@ -295,7 +330,7 @@ const InsertApartmentForm = ({ onClose }) => {
                                 <h3>Nearby Facilities</h3>
                                 <label>Shopping Malls (comma separated):</label>
                                 <br />
-                                <input
+                                <input required 
                                     type="text"
                                     name="shoppingMalls"
                                     value={apartment.nearbyFacilities.shoppingMalls}
@@ -304,7 +339,7 @@ const InsertApartmentForm = ({ onClose }) => {
                                 />
                                 <label>Schools (comma separated):</label>
                                 <br />
-                                <input
+                                <input required 
                                     type="text"
                                     name="schools"
                                     value={apartment.nearbyFacilities.schools}
@@ -313,7 +348,7 @@ const InsertApartmentForm = ({ onClose }) => {
                                 />
                                 <label>Hospitals (comma separated):</label>
                                 <br />
-                                <input
+                                <input required 
                                     type="text"
                                     name="hospitals"
                                     value={apartment.nearbyFacilities.hospitals}
@@ -322,7 +357,7 @@ const InsertApartmentForm = ({ onClose }) => {
                                 />
                                 <label>Public Transport (comma separated):</label>
                                 <br />
-                                <input
+                                <input required 
                                     type="text"
                                     name="publicTransport"
                                     value={apartment.nearbyFacilities.publicTransport}
@@ -334,24 +369,35 @@ const InsertApartmentForm = ({ onClose }) => {
                             <div className='info-apartment-box'>
                                 <label>Contact Info (Employee ID):</label>
                                 <br />
-                                <input
-                                    type="text"
+                                <select
                                     name="contactInfo"
                                     value={apartment.contactInfo}
                                     onChange={handleChange}
                                     className="input-field"
-                                />
+                                    
+                                >
+                                    {employees && employees.length > 0 ?(
+                                        employees.map((employee, index) => (
+                                            <option key={index} value={employee._id}>{employee.name}( {employee._id} )</option>
+                                            ))
+                                    ):(
+                                        <option>Loadding employee ...</option>
+                                    )}
+                                    {/* Add more options as needed */}
+                                </select>
+
                             </div>
-                            <div style={{textAlign:'center'}}>
-                                <button  style={{border:'none', width:'80%', minWidth:'100px',padding:'5px', color:'white',backgroundColor:'var(--main-color)', borderRadius:'5px'}}type="submit" className="submit-button">Insert Apartment</button>
+                            <div style={{ textAlign: 'center' }}>
+                                <button style={{ border: 'none', width: '80%', minWidth: '100px', padding: '5px', color: 'white', backgroundColor: 'var(--main-color)', borderRadius: '5px' }} type="submit" className="submit-button">Insert Apartment</button>
                             </div>
                         </div>
                     </div>
 
                 </form>
             </div>
+
         </>
     );
 };
 
-export default InsertApartmentForm;
+export default AddApartmentForm;

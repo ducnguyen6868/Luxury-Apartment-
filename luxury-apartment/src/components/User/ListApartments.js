@@ -18,7 +18,7 @@ const ListApartments = ({ apartment }) => {
       <p className="apartment-country">{apartment.location.country}</p>
 
       <h3 className="apartment-price-title">Price</h3>
-      <p className="apartment-price">${apartment.price.toLocaleString()}</p>
+      <p className="apartment-price">${apartment.price}</p>
 
       <h3 className="apartment-features-title">Features</h3>
       <ul className="apartment-features">

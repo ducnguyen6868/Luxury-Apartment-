@@ -4,11 +4,34 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const app = express();
 const port = process.env.PORT || 5000;
-const multer= require('multer');
-const upload= multer();
+const path= require('path');
+const multer = require('multer');
+// Cấu hình lưu trữ file
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, 'uploads/'); // Đường dẫn thư mục lưu trữ file
+  },
+  filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  },
+});
+
+// Khởi tạo multer với cấu hình lưu trữ và kiểm tra loại file
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+      if (file.fieldname === 'images' || file.fieldname === 'videoTour') {
+          cb(null, true); // Chấp nhận file nếu đúng trường
+      } else {
+          cb(new multer.MulterError('Unexpected field'), false);
+      }
+  },
+});
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // MongoDB connection
 const uri = 'mongodb://localhost:27017/luxury-apartment';
@@ -73,7 +96,7 @@ const ApartmentSchema = new mongoose.Schema({
   videoTour: String,
   nearbyFacilities: NearbyFacilitiesSchema,
   contactInfo: {
-    type : mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Employee'
   },
 });
@@ -123,7 +146,7 @@ const BookingSchema = mongoose.Schema({
   }
 })
 const Booking = mongoose.model('Booking', BookingSchema);
-module.exports=Booking;
+module.exports = Booking;
 // Routes
 app.get('/', async (req, res) => {
   try {
@@ -262,23 +285,96 @@ app.post("/admin/login", async (req, res) => {
     res.status(500).json("No recivie request");
   }
 });
-app.delete('/apartment/:id',async(req,res)=>{
-  let id= req.params;
-  id=id.id;
+app.delete('/apartment/:id', async (req, res) => {
+  let id = req.params;
+  id = id.id;
   // console.log(id);
   // console.log(typeof(id));
-  try{
+  try {
     await Apartment.findByIdAndDelete(id);
     console.log('Delete sucessfully !');
-    res.json({result:'ok'});
-  }catch(err){
-    console.log("err",err);
-    res.json({result:'error'});
+    res.json({ result: 'ok' });
+  } catch (err) {
+    console.log("err", err);
+    res.json({ result: 'error' });
   }
 });
-app.post('/add-apartment',upload.none(), async(req,res)=>{
-  const {formData}= req.body;
-  console.log(formData);
+app.post('/add-apartment', upload.fields([
+  { name: 'images', maxCount: 10 }, // Chấp nhận nhiều file ảnh
+  { name: 'videoTour', maxCount: 1 } // Chỉ chấp nhận một file video
+]), async (req, res) => {
+  try {
+    // Lấy dữ liệu từ req.body
+    const name = req.body.name;
+    const address = req.body['location.address'];
+    const city = req.body['location.city'];
+    const state = req.body['location.state'];
+    const zipcode = req.body['location.zipcode'];
+    const country = req.body['location.country'];
+    const price = req.body.price;
+    const description = req.body.description;
+    const area = req.body['features.area'];
+    const bedrooms = req.body['features.bedrooms'];
+    const bathrooms = req.body['features.bathrooms'];
+    const balconies = req.body['features.balconies'];
+    const floor = req.body['features.floor'];
+    const furnishing = req.body['features.furnishing'];
+    const parking = req.body['features.parking'];
+    const amenities = req.body.amenities.split(',').map(item => item.trim()); // Chuyển đổi chuỗi thành mảng
+    const shoppingMalls = req.body['nearbyFacilities.shoppingMalls'].split(',').map(item => item.trim());
+    const schools = req.body['nearbyFacilities.schools'].split(',').map(item => item.trim());
+    const hospitals = req.body['nearbyFacilities.hospitals'].split(',').map(item => item.trim());
+    const publicTransport = req.body['nearbyFacilities.publicTransport'].split(',').map(item => item.trim());
+    const contactInfo = req.body.contactInfo;
+
+    // Xử lý các tệp đã tải lên
+    const imageUrls = req.files['images'] ? req.files['images'].map(file => `http://localhost:5000/uploads/${file.filename}`) : [];
+    const videoUrl = req.files['videoTour'] ? `http://localhost:5000/uploads/${req.files['videoTour'][0].filename}` : null;
+
+    // Tạo một căn hộ mới
+    const newApartment = await Apartment.create({
+      name,
+      location: {
+        address,
+        city,
+        state,
+        zipcode,
+        country
+      },
+      price,
+      description,
+      features: {
+        area,
+        bedrooms,
+        bathrooms,
+        balconies,
+        floor,
+        furnishing,
+        parking
+      },
+      amenities,
+      images: imageUrls,
+      videoTour: videoUrl,
+      nearbyFacilities: {
+        shoppingMalls,
+        schools,
+        hospitals,
+        publicTransport
+      },
+      contactInfo
+    });
+
+    res.json({
+      success: true,
+      apartment: newApartment
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to add apartment'
+    });
+  }
 })
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
