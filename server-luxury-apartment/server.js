@@ -4,16 +4,16 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const app = express();
 const port = process.env.PORT || 5000;
-const path= require('path');
+const path = require('path');
 const multer = require('multer');
 // Cấu hình lưu trữ file
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-      cb(null, 'uploads/'); // Đường dẫn thư mục lưu trữ file
+    cb(null, 'uploads/'); // Đường dẫn thư mục lưu trữ file
   },
   filename: (req, file, cb) => {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-      cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
   },
 });
 
@@ -21,11 +21,11 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
-      if (file.fieldname === 'images' || file.fieldname === 'videoTour') {
-          cb(null, true); // Chấp nhận file nếu đúng trường
-      } else {
-          cb(new multer.MulterError('Unexpected field'), false);
-      }
+    if (file.fieldname === 'images' || file.fieldname === 'videoTour') {
+      cb(null, true); // Chấp nhận file nếu đúng trường
+    } else {
+      cb(new multer.MulterError('Unexpected field'), false);
+    }
   },
 });
 // Middleware
@@ -375,7 +375,96 @@ app.post('/add-apartment', upload.fields([
       message: 'Failed to add apartment'
     });
   }
-})
+});
+app.post('/edit-apartment', upload.fields([
+  { name: 'images', maxCount: 10 }, // Chấp nhận nhiều file ảnh
+  { name: 'videoTour', maxCount: 1 } // Chỉ chấp nhận một file video
+]), async (req, res) => {
+  try {
+    // Lấy dữ liệu từ req.body
+    const id = req.body.id;
+    // console.log(id);
+    const name = req.body.name;
+    const address = req.body['location.address'];
+    const city = req.body['location.city'];
+    const state = req.body['location.state'];
+    const zipcode = req.body['location.zipcode'];
+    const country = req.body['location.country'];
+    const price = req.body.price;
+    const description = req.body.description;
+    const area = req.body['features.area'];
+    const bedrooms = req.body['features.bedrooms'];
+    const bathrooms = req.body['features.bathrooms'];
+    const balconies = req.body['features.balconies'];
+    const floor = req.body['features.floor'];
+    const furnishing = req.body['features.furnishing'];
+    const parking = req.body['features.parking'];
+    const amenities = req.body.amenities;
+    const shoppingMalls = req.body['nearbyFacilities.shoppingMalls']
+    const schools = req.body['nearbyFacilities.schools']
+    const hospitals = req.body['nearbyFacilities.hospitals']
+    const publicTransport = req.body['nearbyFacilities.publicTransport']
+    const contactInfo = req.body.contactInfo;
+    let imageUrls, videoUrl;
+    // console.log(req.files.images? req.files.images.length :0 );
+    if (req.files.images) {
+      imageUrls = req.files['images'] ? req.files['images'].map(file => `http://localhost:5000/uploads/${file.filename}`) : [];
+    } else {
+      imageUrls = req.body.images.split(',').map(item => item.trim());
+    }
+    if (req.files.videoTour) {
+
+      // Xử lý các tệp đã tải lên
+      videoUrl = req.files['videoTour'] ? `http://localhost:5000/uploads/${req.files['videoTour'][0].filename}` : null;
+    } else {
+      videoUrl = req.body.videoTour;
+    }
+    console.log(imageUrls, videoUrl);
+    // Tạo một căn hộ mới
+    await Apartment.findByIdAndUpdate({ _id: id },
+      {
+        name,
+        location: {
+          address,
+          city,
+          state,
+          zipcode,
+          country
+        },
+        price,
+        description,
+        features: {
+          area,
+          bedrooms,
+          bathrooms,
+          balconies,
+          floor,
+          furnishing,
+          parking
+        },
+        amenities,
+        images: imageUrls,
+        videoTour: videoUrl,
+        nearbyFacilities: {
+          shoppingMalls,
+          schools,
+          hospitals,
+          publicTransport
+        },
+        contactInfo
+      });
+
+    res.json({
+      success: true,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to add apartment'
+    });
+  }
+});
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });

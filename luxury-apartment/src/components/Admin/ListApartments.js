@@ -7,6 +7,11 @@ import AlertDelete from '../../components/Admin/AlertDelete';
 const ListApartments = ({ apartment }) => {
   //console.log(idApartment);
   const [alert, setAlert] = useState(false);
+  const [imageSrc ,setImageSrc]= useState(apartment.images[0]);
+  const fallbackSrc='../../images/image-not-found.jpg';
+  const handleError=()=>{
+    setImageSrc(fallbackSrc);
+  }
   async function DeleteApartment() {
     try {
       setAlert(true);
@@ -19,11 +24,11 @@ const ListApartments = ({ apartment }) => {
   }
   return (
     <>
-      <div className="apartment-details">
+      <div className="apartment-details" style={{height:'700px'}}>
         {/* {apartment.images.map((image, index) => (
         <image key={index} src={image} alt="Product View"/>
       ))} */}
-        <img className="apartment-image" src={`${apartment.images[0]}`} alt="Product View" />
+        <img style={{height:'250px'}}className="apartment-image" src={imageSrc} alt="Product View" onError={handleError} />
         <h2 className="apartment-name">{apartment.name}</h2>
         <p className="apartment-description">{apartment.description}</p>
 
@@ -34,7 +39,7 @@ const ListApartments = ({ apartment }) => {
 
         <h3 className="apartment-price-title">Price</h3>
         <p className="apartment-price">${apartment.price}</p>
-        <p style={{ borderTop: 'solid 1px gray', paddingTop: '20px', textAlign: 'center', margin: '20px 0px', display: 'flex', justifyContent: 'space-around', justifyItems: 'center' }}>
+        <p style={{ borderTop: 'solid 1px gray', paddingTop: '20px', textAlign: 'center', margin: '20px 0px', display: 'flex', justifyContent: 'space-around', justifyItems: 'center', position:'absolute', bottom:'20px',left:'0',right:'0' }}>
           <Link to={`${apartment._id}`} style={{ textDecoration: 'none',padding:'5px 10px', backgroundColor: 'green', fontSize: 'medium', color: 'white', borderRadius: '10px' }}>View Details</Link>
           <button onClick={DeleteApartment} style={{ border: 'none', fontSize: 'medium', backgroundColor: 'red', color: 'white', borderRadius: '10px ' }}>Delete Apartmemt</button>
 

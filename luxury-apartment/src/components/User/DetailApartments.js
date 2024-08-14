@@ -1,10 +1,14 @@
-const Detailapartment = ({ apartmentDetails}) => {
+const Detailapartment = ({ apartmentDetails }) => {
 
     return (
         <>
             <div className="apartment-details">
                 <h1>{apartmentDetails.name}</h1>
-                <img src={`../${apartmentDetails.images[0]}`} alt="apartment" className="apartmentDetails-image" />
+                <div style={{display:'grid', gap:'10px',gridTemplateColumns:'repeat(auto-fit, minmax(300px , 1fr )  '}}>
+                    {apartmentDetails.images.map((image, index) =>
+                        <img style={{width:'100%'}} src={image} key={index} alt={apartmentDetails.name} />
+                    )}
+                </div>
                 <p>{apartmentDetails.description}</p>
                 <div className="apartment-location">
                     <h3>Location:</h3>
@@ -85,7 +89,7 @@ const Detailapartment = ({ apartmentDetails}) => {
                             style={{ border: '0', borderRadius: '10px', boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.15)' }}
                             allowFullScreen
                         ></iframe>
-                        
+
                     </div>
                 )}
             </div>

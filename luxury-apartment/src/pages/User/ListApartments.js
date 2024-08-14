@@ -32,7 +32,7 @@ const ListsApartment = () => {
           </div>
         </div>
       </div>
-      <div className='section-products'>
+      <div className='section-products' style={{padding:'10px 50px'}}>
         {apartments.length > 0 ? (
           apartments.map(apartment => (
             <ListApartments key={apartment._id} apartment={apartment} />
