@@ -243,28 +243,58 @@ app.post('/register', async (req, res) => {
   }
 });
 app.get('/search', async (req, res) => {
-  const { keyword } = req.query;
-  //console.log("191",keyword);
-  //res.json(keyword);
+  let { keyword } = req.query;
+
+  let query;
+
+  // Nếu keyword là số, tìm kiếm trên các trường số
+  if (!isNaN(keyword)) {
+    keyword = Number(keyword);
+    query = {
+      $or: [
+        { price: keyword },
+        { 'features.area': keyword },
+        { 'features.bedrooms': keyword },
+        { 'features.bathrooms': keyword },
+        { 'features.balconies': keyword },
+      ]
+    };
+  } else {
+    // Nếu keyword là chuỗi, tìm kiếm trên các trường chuỗi
+    const regex = { $regex: keyword, $options: 'i' }; // Biến dùng để tránh lặp lại
+
+    query = {
+      $or: [
+        { name: regex },
+        { description: regex },
+        { amenities: regex },
+        { 'location.address': regex },
+        { 'location.city': regex },
+        { 'location.state': regex },
+        { 'location.zipcode': regex },
+        { 'location.country': regex },
+        { 'features.floor': regex },
+        { 'features.furnishing': regex },
+        { 'features.parking': regex },
+        { 'nearbyFacilities.shoppingMalls': regex },
+        { 'nearbyFacilities.schools': regex },
+        { 'nearbyFacilities.hospitals': regex },
+        { 'nearbyFacilities.publicTransport': regex },
+      ]
+    };
+  }
+
   try {
-    const apartment = await Apartment.find(
-      {
-        $or: [
-          { name: { $regex: keyword, $options: 'i' } },
-          { address: { $regex: keyword, $options: 'i' } },
-          // { price: { $regex: keyword, $options: 'i' } },
-          { area: { $regex: keyword, $options: 'i' } },
-          { type: { $regex: keyword, $options: 'i' } },
-          { district: { $regex: keyword, $options: 'i' } },
-          { ward: { $regex: keyword, $options: 'i' } },
-        ]
-      }
-    )
-    res.json(apartment);
+    const apartments = await Apartment.find(query);
+    res.json(apartments);
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+
 app.get('/user/:id', async (req, res) => {
   const userId = req.params.id;
   // console.log(userId);
