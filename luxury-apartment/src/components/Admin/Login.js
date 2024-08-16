@@ -12,8 +12,9 @@ const AdminLogin = () => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:5000/admin/login', { email, password });
-            if (response.data) {
+            if (response.data.success) {
                 //console.log(response.data);
+                localStorage.setItem('tokenAdmin', response.data.token);
                 setStatus(true);
                 setCheckInfo(true);
             } else {
@@ -38,12 +39,7 @@ const AdminLogin = () => {
         // <!-- Login 9 - Bootstrap Brain Component -->
         <>
             <section className="py-3 py-md-5 py-xl-8" style={{ backgroundColor: "#f1e3e3" }}>
-                {status && (
-                    <div style={{position:'absolute', top:'0' , transition :'all 1s ease-in-out' ,left:'0', right:'0'}} className={status?('hide'):('')}>
-                        <p style={{ color: "green", backgroundColor: 'white', textAlign: 'center' }}>Login Successfull</p>
 
-                    </div>
-                )}
                 <div className="container">
                     <div className="row gy-4 align-items-center">
                         <div className="col-12 col-md-6 col-xl-7">
@@ -67,6 +63,12 @@ const AdminLogin = () => {
                                 <div style={{ boxShadow: "0 0 16px white", borderRadius: "20px", overFlow: "hidden" }} className="card-body p-3 p-md-4 p-xl-5">
                                     <div className="row">
                                         <div className="col-12">
+                                            {status && (
+                                                <div style={{ position: 'absolute', top: '0', transition: 'all 1s ease-in-out', left: '0', right: '0' }} >
+                                                    <p style={{ color: "white", backgroundColor: 'var(--main-color)', textAlign: 'center' }}>Login Successfull</p>
+
+                                                </div>
+                                            )}
                                             <div className="mb-4">
                                                 <h2>Welcome Back , Admin !</h2>
                                             </div>

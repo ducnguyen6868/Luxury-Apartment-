@@ -37,15 +37,15 @@ const LoginForm = () => {
         if (checkResult) {
             const timer = setTimeout(() => {
                 setCheckResult(false);
-                navigate('/');
+                window.location.href='http://localhost:3000';
             }, 1000); // 1000ms = 1s
 
             // Xóa bộ đếm thời gian khi component bị unmount hoặc checkResult thay đổi
             return () => clearTimeout(timer);
         }
-    }, [checkResult,navigate]);
+    }, [checkResult]);
     const goBack=()=>{
-        navigate('/');
+        navigate(-1);
     }
     return (
         <>

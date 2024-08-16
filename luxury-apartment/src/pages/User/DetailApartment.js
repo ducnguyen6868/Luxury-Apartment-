@@ -26,11 +26,13 @@ const DetailApartment = () => {
 
   return (
     <>
-      {apartmentDetails ? (
-        <DetailApartments key={apartmentDetails._id} apartmentDetails={apartmentDetails} />
-      ) : (
-        <div>Loading...</div>
-      )}
+      <div style={{padding:'10px 60px'}}>
+        {apartmentDetails ? (
+          <DetailApartments key={apartmentDetails._id} apartmentDetails={apartmentDetails} />
+        ) : (
+          <div>Loading...</div>
+        )}
+      </div>
     </>
   );
 };

@@ -1,11 +1,8 @@
-import { useNavigate } from "react-router-dom";
+import {useState} from 'react';
 import '../../css/account.css';
+import AlertLogout from '../../components/User/AlertLogout';
 const Account =({infoUser})=>{
-    const navigate = useNavigate();
-    const LogOut=()=>{
-        localStorage.removeItem('token');
-        navigate('/login');
-    }
+    const [alertLogout, setAlertLogout]= useState(false);
     if(!infoUser){
         return(
             <>
@@ -13,16 +10,22 @@ const Account =({infoUser})=>{
             </>
         )
     }
+    const HideAlertLogout=()=>{
+        setAlertLogout(false);
+    }
     return (
+        <>
         <div className="account">
             <img style={{borderRadius:'50%',width:'55px',height:'55px'}}src={infoUser.avatar} alt='avatar'/>
             <span style={{padding:"0 10px", fontWeight:'bolder'}}>{infoUser.name}</span>
             <ul className="account-option">
-                <li><i class="fa-solid fa-user"></i>My account</li>
-                <li><i class="fa-solid fa-gear"></i>Settings</li>
-                <li onClick={LogOut}><i class="fa-solid fa-right-from-bracket"></i>Logout</li>
+                <li><i className="fa-solid fa-user"></i>My account</li>
+                <li><i className="fa-solid fa-gear"></i>Settings</li>
+                <li onClick={()=>setAlertLogout(true)}><i className="fa-solid fa-right-from-bracket"></i>Logout</li>
             </ul>
         </div>
+        {alertLogout && (<AlertLogout onClose={HideAlertLogout}/>)}
+        </>
     )
 }
 export default Account;

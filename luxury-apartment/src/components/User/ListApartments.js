@@ -36,7 +36,7 @@ const ListApartments = ({ apartment }) => {
         <li className="apartment-feature">Parking: {apartment.features.parking}</li>
       </ul>
       <div className="visit-apartment" style={{position:'absolute',bottom:'20px',left:'0',right:'0'}}>
-        <Link to={`detail-apartments/${apartment._id}`}>  
+        <Link to={`../detail-apartments/${apartment._id}`}>  
               <button className="visit-button" >Visit Apartment</button>
         </Link>
       </div>

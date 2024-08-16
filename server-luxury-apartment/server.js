@@ -269,20 +269,21 @@ app.get('/user/:id', async (req, res) => {
 // Start the server
 app.post("/admin/login", async (req, res) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ success: false, message: 'Email and password are required' });
+  }
+  //console.log(email , password); //OK
   try {
-    const employee = await Employee.findOne({
-      email: email,
-      password: password
-    })
-    if (employee) {
-      res.json(employee);
-
-    } else {
-      res.json();
+    const admin = await Employee.findOne({ email: email, password :password ,role:'admin' });
+    if(admin){
+      const token = jwt.sign({adminId:admin._id},'secret', { expiresIn: '1h'});
+      res.json({success:true ,token});
+    }else{
+      res.json({success:false,message:'This account does not exist !'});
     }
+
   } catch (err) {
-    console.log(err);
-    res.status(500).json("No recivie request");
+    console.log("Error :", err);
   }
 });
 app.delete('/apartment/:id', async (req, res) => {
@@ -465,6 +466,16 @@ app.post('/edit-apartment', upload.fields([
     });
   }
 });
+app.get('/admin/:adminId',async(req,res)=>{
+  const adminId=req.params.adminId;
+  // console.log(adminId);
+  try {
+    const admin=await Employee.findById(adminId);
+    res.json(admin);
+  }catch(err){
+    console.error(err);
+  }
+})
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });

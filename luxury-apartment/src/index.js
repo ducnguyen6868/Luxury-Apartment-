@@ -12,6 +12,7 @@ import AdminLogin from './components/Admin/Login';
 import LayoutAdmin from './pages/Admin/Layout';
 import AdminApartment from './pages/Admin/ListApartment';
 import AdminDetailApartment from './pages/Admin/DetailsApartment';
+import Dashboard from './pages/Admin/Dashboard';
 import './index.css';
 import './js/loader';
 import reportWebVitals from './reportWebVitals';
@@ -33,7 +34,7 @@ export default function App() {
         </Route>
         <Route path='admin/login' element={<AdminLogin />} />
         <Route path='admin' element={<LayoutAdmin/>}>
-          {/* <Route path='dashboard' element={<Dashboard />} /> */}
+          <Route path='dashboard' element={<Dashboard />} />
           <Route path='apartment' element={<AdminApartment />} />
           <Route path='apartment/:id' element={<AdminDetailApartment />} />        
         </Route>
