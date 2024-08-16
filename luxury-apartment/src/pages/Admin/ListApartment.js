@@ -54,8 +54,8 @@ const AdminProduct = () => {
             </div>
 
             <ReactPaginate
-                previousLabel={<i class="fa-solid fa-angle-left"></i>}
-                nextLabel={<i class="fa-solid fa-angle-right"></i>}
+                previousLabel={<i className="fa-solid fa-angle-left"></i>}
+                nextLabel={<i className="fa-solid fa-angle-right"></i>}
                 breakLabel={"..."}
                 pageCount={pageCount}
                 marginPagesDisplayed={1}

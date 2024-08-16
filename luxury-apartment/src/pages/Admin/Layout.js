@@ -44,7 +44,7 @@ const Layout = () => {
             <header style={{ backgroundColor: '#d2dae1', display: 'flex', justifyContent: 'space-around', alignItems: 'center' }} className="navbar-dark sticky-top  flex-md-nowrap p-0 shadow">
                 <div>
                     <Link style={{ fontSize: '16px' }} className="navbar-brand ol-md-3 col-lg-2 me-0 px-3" to="/admin/dashboard">
-                        <img src='../logo.png' style={{ width: '80px', marginRight: '10px' }} alt='Company logo'></img>
+                        <img src='../../logo.png' style={{ width: '80px', marginRight: '10px' }} alt='Company logo'></img>
                         Villa Agency
                     </Link>
                     <button className="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">

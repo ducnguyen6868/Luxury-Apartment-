@@ -166,26 +166,6 @@ app.get('/product', async (req, res) => {
   }
 });
 
-
-app.post('/add-apartment', async (req, res) => {
-  try {
-    const { type, price, name, code, description } = req.body;
-
-    const newApartment = new Apartment({
-      type,
-      price,
-      name,
-      code,
-      description
-    });
-
-    await newApartment.save();
-    res.status(201).json({ message: 'Apartment added successfully!' });
-  } catch (err) {
-    res.status(400).json({ error: 'Error: ' + err });
-  }
-});
-
 app.get('/contact', async (req, res) => {
   try {
     const Employees = await Employee.find();
