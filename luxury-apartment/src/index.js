@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./pages/layout";
-import Home from "./pages/home";
-import ListProducts from "./pages/listProducts";
-import DetailProduct from "./pages/detailProduct";
-import Contact from "./pages/contact";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './index.css';
 import './js/loader';
+import Contact from "./pages/contact";
+import DetailProduct from "./pages/detailProduct";
+import FormEditProfile from './pages/formEditUser';
+import Home from "./pages/home";
+import Layout from "./pages/layout";
+import ListProducts from "./pages/listProducts";
 import reportWebVitals from './reportWebVitals';
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="list-apartments" element={< ListProducts />} />
           <Route path="detail-apartments/:id" element={< DetailProduct />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="formEditUser" element={<FormEditProfile />} />
         </Route>
       </Routes>
     </BrowserRouter>

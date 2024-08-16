@@ -1,8 +1,8 @@
 // src/pages/layout.js
 import React, { useState } from 'react';
-import { Outlet, Link } from "react-router-dom";
-import '../css/home.css';
+import { Link, Outlet } from "react-router-dom";
 import '../css/flex-slider.css';
+import '../css/home.css';
 // import '../css/fontawesome.css';
 // import '../css/owl.css';
 // import '../css/templatemo-villa-agency.css';
@@ -97,6 +97,15 @@ const Layout = () => {
                                             onClick={() => handleLinkClick('/contact')}
                                         >
                                             Contact Us
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="/formEditUser"
+                                            className={`option ${activeLink === '/formEditUser' ? 'active' : ''}`}
+                                            onClick={() => handleLinkClick('/formEditUser')}
+                                        >
+                                            Edit Your Profile
                                         </Link>
                                     </li>
                                     <li>
