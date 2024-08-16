@@ -24,11 +24,11 @@ const ListApartments = ({ apartment }) => {
   }
   return (
     <>
-      <div className="apartment-details" style={{height:'700px'}}>
+      <div className="apartment-details" style={{height:'700px',maxWidth:'500px'}}>
         {/* {apartment.images.map((image, index) => (
         <image key={index} src={image} alt="Product View"/>
       ))} */}
-        <img style={{height:'250px'}}className="apartment-image" src={imageSrc} alt="Product View" onError={handleError} />
+        <img style={{height:'250px'}}className="apartment-image" src={imageSrc} alt="Product View" onError={handleError} loading='lazy' />
         <h2 className="apartment-name">{apartment.name}</h2>
         <p className="apartment-description">{apartment.description}</p>
 

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import '../../css/property.css';
 import ListApartments from '../../components/User/ListApartments';
-
+import ReactPaginate from 'react-paginate';
 const ListsApartment = () => {
   const [apartments, setApartments] = useState([]);
   useEffect(() => {
@@ -20,6 +20,14 @@ const ListsApartment = () => {
     }
     fetchApartments();
   }, []);
+  const [currentPage, setCurrentPage]= useState(0);
+  const [apartmentsPerPage] = useState(4);
+  const offset = currentPage * apartmentsPerPage;
+  const currentApartments = apartments.slice(offset,offset + apartmentsPerPage);
+  const pageNumbers= Math.ceil(apartments.length / apartmentsPerPage);
+  const handlePageClick = ({selected}) => {
+    setCurrentPage(selected);
+    };
   return (
     <>
       <div className="page-heading header-text">
@@ -34,7 +42,7 @@ const ListsApartment = () => {
       </div>
       <div className='section-products' style={{padding:'10px 50px'}}>
         {apartments.length > 0 ? (
-          apartments.map(apartment => (
+          currentApartments.map(apartment => (
             <ListApartments key={apartment._id} apartment={apartment} />
 
           ))
@@ -42,6 +50,15 @@ const ListsApartment = () => {
           <p>Loading apartments...</p>
         )}
       </div>
+      <ReactPaginate 
+      previousLabel={<i class="fa-solid fa-angle-left"></i>}
+      nextLabel={<i class="fa-solid fa-angle-right"></i>}
+      breakLabel={"..."}
+      pageCount={pageNumbers}
+      onPageChange={handlePageClick}
+      containerClassName='pagination'
+      activeClassName='active'
+      />
     </>
   );
 };

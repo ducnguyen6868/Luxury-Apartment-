@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import ListApartments from '../../components/User/ListApartments';
 import Contact from '../../components/User/Contact';
 import Searching from '../../components/User/SearchingApartments';
+import ReactPaginate from 'react-paginate';
 const Home = () => {
     const [apartments, setApartments] = useState([]);
 
@@ -22,7 +23,14 @@ const Home = () => {
 
     }, []);
 
-  
+    const [currentPage , setCurrentPage] = useState(0);
+    const apartmentsPerPage= 3;
+    const offset= currentPage * apartmentsPerPage;
+    const currentApartments  = apartments.slice(offset, offset+apartmentsPerPage);
+    const pageNumbers= Math.ceil(apartments.length / apartmentsPerPage);
+    const handlePageClick= ({selected})=>{
+        setCurrentPage(selected);
+    }
     return (
         <>
             <div className="main-banner">
@@ -59,10 +67,10 @@ const Home = () => {
                 <div>
                     <h3>Gợi ý cho bạn</h3>
                 </div>
-                <div className='section-products'>
+                <div className='section-products' style={{marginBottom:'20px'}}>
                     
                     {apartments.length > 0 ? (
-                        apartments.map(apartment => (
+                        currentApartments.map(apartment => (
                             <ListApartments key={apartment._id} apartment={apartment} />
 
                         ))
@@ -70,6 +78,17 @@ const Home = () => {
                         <p>Loading apartments...</p>
                     )}
                 </div>
+                <ReactPaginate 
+                previousLabel={<i class="fa-solid fa-angle-left"></i>}
+                nextLabel={<i class="fa-solid fa-angle-right"></i>}
+                breakLabel={"..."}
+                pageCount={pageNumbers}
+                marginPagesDisplayed={1}
+                pageRangeDisplayed={2}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination"}
+                activeClassName={"active"}
+                />
             </div>
             <Contact />
 

@@ -20,6 +20,24 @@ code {
 .hide{
   opacity: 0;
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0;
+  margin:20px 0;
+}
+
+.pagination li {
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.pagination li.active {
+  font-weight: bold;
+  color: var(--main-color);
+}
+
 img{
   object-fit: cover;
   object-position: center;
