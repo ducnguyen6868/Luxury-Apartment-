@@ -88,7 +88,7 @@ const RegisterForm = () => {
                         </div>
                         <div className='box-help'>
                             <span>Did have account ?</span>
-                            <Link to='#'>Login</Link>
+                            <Link to='/login'>Login</Link>
                         </div>
                     </form>
                     <img style={{ width: '400px' }} src='/images/single-property.jpg' alt='view access' />

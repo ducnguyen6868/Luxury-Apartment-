@@ -1,19 +1,18 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import '../../css/Access.css';  // Đảm bảo import file CSS nếu chưa
+
 const Access = () => {
     return (
-        <>
-            <div>
-                <Link to='login'>
-                    <span style={{ padding: '0px 5px', cursor: 'pointer' }}>Đăng nhập</span>
-                </Link>
-
-                <span style={{ padding: '0px 5px', cursor: 'pointer' }}>|</span>
-                <Link to='register'>
-                    <span style={{ padding: '0px 5px', cursor: 'pointer' }}>Đăng ký</span>
-                </Link>
-
-            </div>
-        </>
+        <div className="access-container">
+            <Link to='login'>
+                <span>Login</span>
+            </Link>
+            <span className="divider">|</span>
+            <Link to='register'>
+                <span>Sign up</span>
+            </Link>
+        </div>
     )
 }
+
 export default Access;
