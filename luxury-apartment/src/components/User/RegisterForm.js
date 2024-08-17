@@ -63,7 +63,7 @@ const RegisterForm = () => {
                         <img className='logo' src='../logo.png' alt='Logo' />
                         <span className='agency-name'>Villa Agency</span>
                     </div>
-                    <h2 className='form-title'>Register</h2>
+                    <h2 className='form-title'>Sign up</h2>
                     <div className='box-info'>
                         <label className='label'>Your name:</label>
                         <input type='text' required value={name} onChange={(e) => setName(e.target.value)} />
@@ -92,13 +92,13 @@ const RegisterForm = () => {
                     </div>
                     <div className='box-button'>
                         <button type='submit' className='submit-button'>Sign up</button>
-                    </div>
-                    <div className='box-help'>
-                        <span>Did have account ?</span>
+                        <div className='box-help'>
+                        <span>Did have account ? </span>
                         <Link to='/login'>Login</Link>
                     </div>
+                    </div>
+                    
                 </form>
-                <img className='side-image' src='/images/single-property.jpg' alt='view access' />
             </div>
         </section>
     );

@@ -97,7 +97,6 @@ const LoginForm = () => {
                         </button>
                     </div>
                 </form>
-                <img className='side-image' src='/images/single-property.jpg' alt='view access' />
             </div>
         </section>
     );

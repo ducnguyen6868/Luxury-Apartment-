@@ -127,10 +127,3 @@ input[type='password']:focus {
     color: var(--main-color);
     text-decoration: none;
 }
-
-.side-image {
-    width: 100%;
-    max-width: 400px;
-    display: block;
-    margin: 20px auto 0;
-}
