@@ -1,9 +1,8 @@
-/* CSS cho phần Access */
 .access-container {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 16px;
+    font-size: 17px;
 }
 
 .access-container a {
