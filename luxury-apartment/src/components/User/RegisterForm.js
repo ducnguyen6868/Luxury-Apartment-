@@ -15,6 +15,7 @@ const RegisterForm = () => {
 
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
+        
         if (password !== confirmPassword) {
             setCheckPassword(false);
         } else {
@@ -32,14 +33,12 @@ const RegisterForm = () => {
             }
         }
     }, [name, email, password, confirmPassword]);
-
     useEffect(() => {
         if (checkResult) {
             const timer = setTimeout(() => {
                 setCheckResult(false);
                 navigate('/login');
             }, 1000);
-
             return () => clearTimeout(timer);
         }
     }, [checkResult, navigate]);

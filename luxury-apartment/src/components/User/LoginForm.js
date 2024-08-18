@@ -29,7 +29,6 @@ const LoginForm = () => {
             console.error('There was an error logging in!', error);
         }
     };
-
     useEffect(() => {
         if (checkResult) {
             const timer = setTimeout(() => {
