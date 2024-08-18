@@ -14,8 +14,7 @@ const RegisterForm = () => {
     const navigate = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Xử lý đăng ký
-        //console.log('Registering with:', name, email, password);
+        
         if (password !== confirmPassword) {
             setCheckPassword(false);
         } else {
@@ -34,7 +33,7 @@ const RegisterForm = () => {
         }
 
     };
-    // Giả sử bạn sẽ đặt checkResult thành true khi đăng ký thành công
+    
     useEffect(() => {
         if (checkResult) {
             const timer = setTimeout(() => {
@@ -42,7 +41,7 @@ const RegisterForm = () => {
                 navigate('/login')
             }, 1000); // 1000ms = 1s
 
-            // Xóa bộ đếm thời gian khi component bị unmount hoặc checkResult thay đổi
+           
             return () => clearTimeout(timer);
         }
     }, [checkResult,navigate]);
