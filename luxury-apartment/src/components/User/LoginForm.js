@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import '../../css/LoginForm.css';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 const LoginForm = () => {
@@ -32,7 +31,6 @@ const LoginForm = () => {
             console.error('There was an error logging in!', error);
         }
     };
-    // Giả sử bạn sẽ đặt checkResult thành true khi đăng nhập thành công thành công
     useEffect(() => {
         if (checkResult) {
             const timer = setTimeout(() => {
@@ -40,7 +38,6 @@ const LoginForm = () => {
                 window.location.href='http://localhost:3000';
             }, 1000); // 1000ms = 1s
 
-            // Xóa bộ đếm thời gian khi component bị unmount hoặc checkResult thay đổi
             return () => clearTimeout(timer);
         }
     }, [checkResult]);
