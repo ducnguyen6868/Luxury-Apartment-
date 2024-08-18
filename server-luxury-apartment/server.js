@@ -242,6 +242,7 @@ app.post('/register', async (req, res) => {
     console.log("Error :", err);
   }
 });
+
 app.get('/search', async (req, res) => {
   let { keyword } = req.query;
 
