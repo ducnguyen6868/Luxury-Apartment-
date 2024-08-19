@@ -2,25 +2,23 @@ import React, { useState, useEffect } from 'react';
 import '../../css/LoginForm.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
 const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [checkResult, setCheckResult] = useState(false);
     const [checkPassword, setCheckPassword] = useState(true);
     const navigate = useNavigate();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Xử lý đăng nhập
-        //console.log('Logging in with:', email, password);
         try {
             const response = await axios.post('http://localhost:5000/login', { email, password }, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-            //console.log(response);
             if (response.data.success) {
-                //console.log("Verified account");
                 localStorage.setItem('token', response.data.token);
                 setCheckResult(true);
                 setCheckPassword(true);
@@ -31,19 +29,22 @@ const LoginForm = () => {
             console.error('There was an error logging in!', error);
         }
     };
+
     useEffect(() => {
         if (checkResult) {
             const timer = setTimeout(() => {
                 setCheckResult(false);
-                window.location.href='http://localhost:3000';
-            }, 1000); // 1000ms = 1s
+                navigate('/'); 
+            }, 1000); 
 
             return () => clearTimeout(timer);
         }
-    }, [checkResult]);
-    const goBack=()=>{
-        navigate(-1);
-    }
+    }, [checkResult, navigate]);
+
+    const goBack = () => {
+        navigate('/');
+    };
+
     return (
         <section className='access-form'>
             <div className='form-container'>
@@ -62,7 +63,7 @@ const LoginForm = () => {
                     </div>
                     <h2 className='form-title'>Login</h2>
                     <div className='box-info'>
-                        <label className='label'>Email:</label>
+                        <label className='label' htmlFor='email-login'>Email:</label>
                         <input
                             value={email}
                             type='email'
@@ -72,7 +73,7 @@ const LoginForm = () => {
                         />
                     </div>
                     <div className='box-info'>
-                        <label className='label'>Password:</label>
+                        <label className='label' htmlFor='password-login'>Password:</label>
                         <input
                             value={password}
                             type='password'

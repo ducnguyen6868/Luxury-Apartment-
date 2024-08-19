@@ -1,8 +1,8 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../../css/Registerform.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+
 const RegisterForm = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -12,10 +12,9 @@ const RegisterForm = () => {
     const [checkEmail, setCheckEmail] = useState(false);
     const [checkResult, setCheckResult] = useState(false);
     const navigate = useNavigate();
-    const handleSubmit = async (e) => {
+
+    const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
-        // Xử lý đăng ký
-        //console.log('Registering with:', name, email, password);
         if (password !== confirmPassword) {
             setCheckPassword(false);
         } else {
@@ -26,29 +25,29 @@ const RegisterForm = () => {
                     setCheckEmail(true);
                 } else {
                     setCheckResult(true);
-                    
                 }
             } catch (error) {
-                console.log("Error :", error);
+                console.error("Error during registration:", error);
+                // Consider displaying an error message to the user here
             }
         }
+    }, [name, email, password, confirmPassword]);
 
-    };
-    // Giả sử bạn sẽ đặt checkResult thành true khi đăng ký thành công
     useEffect(() => {
         if (checkResult) {
             const timer = setTimeout(() => {
                 setCheckResult(false);
-                navigate('/login')
-            }, 1000); // 1000ms = 1s
+                navigate('/login');
+            }, 1000);
 
-            // Xóa bộ đếm thời gian khi component bị unmount hoặc checkResult thay đổi
             return () => clearTimeout(timer);
         }
-    }, [checkResult,navigate]);
-    const goBack=()=>{
-        navigate(-1);
-    }
+    }, [checkResult, navigate]);
+
+    const goBack = useCallback(() => {
+        navigate('/');
+    }, [navigate]);
+
     return (
         <section className='register-form'>
             <div className='form-container'>
@@ -65,12 +64,12 @@ const RegisterForm = () => {
                     </div>
                     <h2 className='form-title'>Sign up</h2>
                     <div className='box-info'>
-                        <label className='label'>Your name:</label>
-                        <input type='text' required value={name} onChange={(e) => setName(e.target.value)} />
+                        <label className='label' htmlFor='name'>Your name:</label>
+                        <input id='name' type='text' required value={name} onChange={(e) => setName(e.target.value)} />
                     </div>
                     <div className='box-info'>
-                        <label className='label'>Email:</label>
-                        <input type='email' required value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <label className='label' htmlFor='email'>Email:</label>
+                        <input id='email' type='email' required value={email} onChange={(e) => setEmail(e.target.value)} />
                         {checkEmail && (
                             <div className='error-message'>
                                 Email đã được đăng ký
@@ -78,12 +77,12 @@ const RegisterForm = () => {
                         )}
                     </div>
                     <div className='box-info'>
-                        <label className='label'>Password:</label>
-                        <input type='password' required value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <label className='label' htmlFor='password'>Password:</label>
+                        <input id='password' type='password' required value={password} onChange={(e) => setPassword(e.target.value)} />
                     </div>
                     <div className='box-info'>
-                        <label className='label'>Confirm Password:</label>
-                        <input type='password' required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                        <label className='label' htmlFor='confirmPassword'>Confirm Password:</label>
+                        <input id='confirmPassword' type='password' required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                         {!checkPassword && (
                             <div className='error-message'>
                                 Mật khẩu xác nhận không trùng khớp
@@ -93,11 +92,10 @@ const RegisterForm = () => {
                     <div className='box-button'>
                         <button type='submit' className='submit-button'>Sign up</button>
                         <div className='box-help'>
-                        <span>Did have account ? </span>
-                        <Link to='/login'>Login</Link>
+                            <span>Did you have an account? </span>
+                            <Link to='/login'>Login</Link>
+                        </div>
                     </div>
-                    </div>
-                    
                 </form>
             </div>
         </section>
