@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-const AdminLogin = () => {
+const axios = require("axios");
+const AdminLogin = ({onLogin}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [status, setStatus] = useState(false);
@@ -10,6 +10,7 @@ const AdminLogin = () => {
     const navigate = useNavigate();
     const HandleSubmit = async (e) => {
         e.preventDefault();
+        onLogin({email,password});
         try {
             const response = await axios.post('http://localhost:5000/admin/login', { email, password });
             if (response.data.success) {
@@ -79,13 +80,13 @@ const AdminLogin = () => {
                                         <div className="row gy-3 overflow-hidden">
                                             <div >
                                                 <div >
-                                                    <span>Email:</span>
+                                                    <label htmlFor='email'>Email:</label>
                                                     <input type="email" name="email" id="email" placeholder="name@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
                                                 </div>
                                             </div>
                                             <div >
                                                 <div >
-                                                    <span >Password :</span>
+                                                    <label htmlFor='password' >Password :</label>
                                                     <input type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
                                                 </div>
                                                 {!checkInfo && (<div>
@@ -102,7 +103,7 @@ const AdminLogin = () => {
                                             </div>
                                             <div >
                                                 <div className="d-grid">
-                                                    <button style={{ backgroundColor: "var(--main-color)", border: "none" }} className="btn btn-primary btn-lg" type="submit">Log in now</button>
+                                                    <button style={{ backgroundColor: "var(--main-color)", border: "none" }} className="btn btn-primary btn-lg" type="submit">Login</button>
                                                 </div>
                                             </div>
                                         </div>

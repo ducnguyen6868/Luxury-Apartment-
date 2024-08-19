@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../../css/AddApartmentForm.css'; // Import file CSS
 
-const EditApartmentForm = ({ apartmentDetails, onClose }) => {
+const EditApartmentForm = ({ apartmentDetails, onClose}) => {
     const [employees, setEmployee] = useState();
     const [result, setResult] = useState(false);
     const [apartment, setApartment] = useState({
@@ -83,15 +83,15 @@ const EditApartmentForm = ({ apartmentDetails, onClose }) => {
 
     const handleFileChange = (e, fileKey) => {
         const files = Array.from(e.target.files); // Lấy tất cả các file
-        if(files.length>0){
+        if (files.length > 0) {
             setApartment((prevApartment) => ({
                 ...prevApartment,
                 [fileKey]: files, // Lưu mảng các file
             }));
-        }else{
+        } else {
             setApartment((prevApartment) => ({
                 ...prevApartment,
-                [fileKey]:apartmentDetails[fileKey]
+                [fileKey]: apartmentDetails[fileKey]
             }));
         }
     };
@@ -132,11 +132,14 @@ const EditApartmentForm = ({ apartmentDetails, onClose }) => {
             if (response.data.success) {
                 alert('Apartment edit successfully');
                 setResult(true);
+                // onSubmit();
             } else {
+                //throw new Error('Failed to edit apartment');
                 alert('Failed to edit apartment');
             }
         } catch (err) {
             console.error('Error inserting apartment:', err);
+            alert('Failed to edit apartment');
         }
     };
 
@@ -145,18 +148,19 @@ const EditApartmentForm = ({ apartmentDetails, onClose }) => {
             <div className='add-apartment-container'>
                 <form onSubmit={handleSubmit} className="insert-apartment-form" encType="multipart/form-data">
                     <div>
-                        <i onClick={onClose} className="fa-regular fa-circle-xmark"></i>
-                        <h2 style={{ textAlign: 'center' }}>Edit Apartment</h2>
+                        <i onClick={onClose} data-testid="close-icon" aria-label="close" className="fa-regular fa-circle-xmark"></i>
+                        <h2 style={{ textAlign: 'center' }}>Form Edit Apartment</h2>
                     </div>
 
                     <div style={{ display: 'grid', gap: '10px', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr)' }}>
                         <div>
                             <div className='info-apartment-box'>
-                                <label>Name:</label>
+                                <label htmlFor="name">Name:</label>
                                 <br />
-
-                                <input required 
+                                <input
+                                    required
                                     type="text"
+                                    id="name"
                                     name="name"
                                     value={apartment.name}
                                     onChange={handleChange}
@@ -166,58 +170,68 @@ const EditApartmentForm = ({ apartmentDetails, onClose }) => {
 
                             <div className='info-apartment-box'>
                                 <h3>Location</h3>
-                                <label>Address:</label>
+                                <label htmlFor="address">Address:</label>
                                 <br />
-                                <input 
+                                <input required
                                     type="text"
+                                    id="address"
                                     name="address"
                                     value={apartment.location.address}
                                     onChange={(e) => handleNestedChange(e, 'location')}
                                     className="input-field"
                                 />
-                                <label>City:</label>
+                                <label htmlFor="city">City:</label>
                                 <br />
-                                <input required 
+                                <input
+                                    required
                                     type="text"
+                                    id="city"
                                     name="city"
                                     value={apartment.location.city}
                                     onChange={(e) => handleNestedChange(e, 'location')}
                                     className="input-field"
                                 />
-                                <label>State:</label>
+                                <label htmlFor="state">State:</label>
                                 <br />
-                                <input required 
+                                <input
+                                    required
                                     type="text"
+                                    id="state"
                                     name="state"
                                     value={apartment.location.state}
                                     onChange={(e) => handleNestedChange(e, 'location')}
                                     className="input-field"
                                 />
-                                <label>Zipcode:</label>
+                                <label htmlFor="zipcode">Zipcode:</label>
                                 <br />
-                                <input required 
+                                <input
+                                    required
                                     type="text"
+                                    id="zipcode"
                                     name="zipcode"
                                     value={apartment.location.zipcode}
                                     onChange={(e) => handleNestedChange(e, 'location')}
                                     className="input-field"
                                 />
-                                <label>Country:</label>
+                                <label htmlFor="country">Country:</label>
                                 <br />
-                                <input required 
+                                <input
+                                    required
                                     type="text"
+                                    id="country"
                                     name="country"
                                     value={apartment.location.country}
                                     onChange={(e) => handleNestedChange(e, 'location')}
                                     className="input-field"
                                 />
-
                             </div>
                             <div className='info-apartment-box'>
-                                <label>Price:</label>
+                                <label htmlFor="price">Price:</label>
                                 <br />
-                                <input required 
+                                <input
+                                    required
                                     type="number"
+                                    id="price"
                                     name="price"
                                     value={apartment.price}
                                     onChange={handleChange}
@@ -226,9 +240,11 @@ const EditApartmentForm = ({ apartmentDetails, onClose }) => {
                             </div>
 
                             <div className='info-apartment-box'>
-                                <label>Description:</label>
+                                <label htmlFor="description">Description:</label>
                                 <br />
-                                <textarea style={{ width: '100%' }}
+                                <textarea
+                                    style={{ width: '100%' }}
+                                    id="description"
                                     name="description"
                                     value={apartment.description}
                                     onChange={handleChange}
@@ -239,94 +255,112 @@ const EditApartmentForm = ({ apartmentDetails, onClose }) => {
 
                         <div className='info-apartment-box'>
                             <h3>Features</h3>
-                            <label>Area:</label>
+                            <label htmlFor="area">Area:</label>
                             <br />
-                            <input required 
+                            <input
+                                required
                                 type="text"
+                                id="area"
                                 name="area"
                                 value={apartment.features.area}
                                 onChange={(e) => handleNestedChange(e, 'features')}
                                 className="input-field"
                             />
-                            <label>Bedrooms:</label>
+                            <label htmlFor="bedrooms">Bedrooms:</label>
                             <br />
-                            <input required 
+                            <input
+                                required
                                 type="number"
+                                id="bedrooms"
                                 name="bedrooms"
                                 value={apartment.features.bedrooms}
                                 onChange={(e) => handleNestedChange(e, 'features')}
                                 className="input-field"
                             />
-                            <label>Bathrooms:</label>
+                            <label htmlFor="bathrooms">Bathrooms:</label>
                             <br />
-                            <input required 
+                            <input
+                                required
                                 type="number"
+                                id="bathrooms"
                                 name="bathrooms"
                                 value={apartment.features.bathrooms}
                                 onChange={(e) => handleNestedChange(e, 'features')}
                                 className="input-field"
                             />
-                            <label>Balconies:</label>
+                            <label htmlFor="balconies">Balconies:</label>
                             <br />
-                            <input required 
+                            <input
+                                required
                                 type="number"
+                                id="balconies"
                                 name="balconies"
                                 value={apartment.features.balconies}
                                 onChange={(e) => handleNestedChange(e, 'features')}
                                 className="input-field"
                             />
-                            <label>Floor:</label>
+                            <label htmlFor="floor">Floor:</label>
                             <br />
-                            <input required 
+                            <input
+                                required
                                 type="text"
+                                id="floor"
                                 name="floor"
                                 value={apartment.features.floor}
                                 onChange={(e) => handleNestedChange(e, 'features')}
                                 className="input-field"
                             />
-                            <label>Furnishing:</label>
+                            <label htmlFor="furnishing">Furnishing:</label>
                             <br />
-                            <input required 
+                            <input
+                                required
                                 type="text"
+                                id="furnishing"
                                 name="furnishing"
                                 value={apartment.features.furnishing}
                                 onChange={(e) => handleNestedChange(e, 'features')}
                                 className="input-field"
                             />
-                            <label>Parking:</label>
+                            <label htmlFor="parking">Parking:</label>
                             <br />
-                            <input required 
+                            <input
+                                required
                                 type="text"
+                                id="parking"
                                 name="parking"
                                 value={apartment.features.parking}
                                 onChange={(e) => handleNestedChange(e, 'features')}
                                 className="input-field"
                             />
 
-                            <label>Amenities (comma separated):</label>
+                            <label htmlFor="amenities">Amenities (comma separated):</label>
                             <br />
-                            <input required 
+                            <input
+                                required
                                 type="text"
+                                id="amenities"
                                 name="amenities"
                                 value={apartment.amenities}
                                 onChange={handleChange}
                                 className="input-field"
                             />
 
-                            <label>Images:</label>
+                            <label htmlFor="images">Images:</label>
                             <br />
-                            <input  
+                            <input
                                 type="file"
+                                id="images"
                                 name="images"
                                 onChange={(e) => handleFileChange(e, 'images')}
                                 className="input-field"
                                 multiple
                             />
 
-                            <label>Video Tour:</label>
+                            <label htmlFor="videoTour">Video Tour:</label>
                             <br />
-                            <input  
+                            <input
                                 type="file"
+                                id="videoTour"
                                 name="videoTour"
                                 onChange={(e) => handleFileChange(e, 'videoTour')}
                                 className="input-field"
@@ -336,37 +370,45 @@ const EditApartmentForm = ({ apartmentDetails, onClose }) => {
                         <div >
                             <div className='info-apartment-box'>
                                 <h3>Nearby Facilities</h3>
-                                <label>Shopping Malls (comma separated):</label>
+                                <label htmlFor="shoppingMalls">Shopping Malls (comma separated):</label>
                                 <br />
-                                <input required 
+                                <input
+                                    required
                                     type="text"
+                                    id="shoppingMalls"
                                     name="shoppingMalls"
                                     value={apartment.nearbyFacilities.shoppingMalls}
                                     onChange={(e) => handleNestedChange(e, 'nearbyFacilities')}
                                     className="input-field"
                                 />
-                                <label>Schools (comma separated):</label>
+                                <label htmlFor="schools">Schools (comma separated):</label>
                                 <br />
-                                <input required 
+                                <input
+                                    required
                                     type="text"
+                                    id="schools"
                                     name="schools"
                                     value={apartment.nearbyFacilities.schools}
                                     onChange={(e) => handleNestedChange(e, 'nearbyFacilities')}
                                     className="input-field"
                                 />
-                                <label>Hospitals (comma separated):</label>
+                                <label htmlFor="hospitals">Hospitals (comma separated):</label>
                                 <br />
-                                <input required 
+                                <input
+                                    required
                                     type="text"
+                                    id="hospitals"
                                     name="hospitals"
                                     value={apartment.nearbyFacilities.hospitals}
                                     onChange={(e) => handleNestedChange(e, 'nearbyFacilities')}
                                     className="input-field"
                                 />
-                                <label>Public Transport (comma separated):</label>
+                                <label htmlFor="publicTransport">Public Transport (comma separated):</label>
                                 <br />
-                                <input required 
+                                <input
+                                    required
                                     type="text"
+                                    id="publicTransport"
                                     name="publicTransport"
                                     value={apartment.nearbyFacilities.publicTransport}
                                     onChange={(e) => handleNestedChange(e, 'nearbyFacilities')}
@@ -375,32 +417,36 @@ const EditApartmentForm = ({ apartmentDetails, onClose }) => {
                             </div>
 
                             <div className='info-apartment-box'>
-                                <label>Contact Info (Employee ID):</label>
+                                <label htmlFor="contactInfo">Contact Info (Employee ID):</label>
                                 <br />
                                 <select
+                                    id="contactInfo"
                                     name="contactInfo"
                                     value={apartment.contactInfo}
                                     onChange={handleChange}
                                     className="input-field"
-
                                 >
                                     {employees && employees.length > 0 ? (
                                         employees.map((employee, index) => (
-                                            <option key={index} value={employee._id}>{employee.name}( {employee._id} )</option>
+                                            <option key={index} value={employee._id}>{employee.name} ({employee._id})</option>
                                         ))
                                     ) : (
-                                        <option>Loadding employee ...</option>
+                                        <option>Loading employee ...</option>
                                     )}
                                     {/* Add more options as needed */}
                                 </select>
-
                             </div>
                             <div style={{ textAlign: 'center' }}>
-                                <button style={{ border: 'none', width: '80%', minWidth: '100px', padding: '5px', color: 'white', backgroundColor: 'var(--main-color)', borderRadius: '5px' }} type="submit" className="submit-button">Edit Apartment</button>
+                                <button
+                                    style={{ border: 'none', width: '80%', minWidth: '100px', padding: '5px', color: 'white', backgroundColor: 'var(--main-color)', borderRadius: '5px' }}
+                                    type="submit"
+                                    className="submit-button"
+                                >
+                                    Confirm Edit Apartment
+                                </button>
                             </div>
                         </div>
                     </div>
-
                 </form>
             </div>
 

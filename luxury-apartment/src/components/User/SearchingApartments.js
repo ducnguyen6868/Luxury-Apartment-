@@ -4,7 +4,7 @@ import ListApartments from '../../components/User/ListApartments';
 const Searching = () => {
     const [keyword, setKeyword] = useState("");
     const [apartments, setApartments] = useState();
-    const [status , setStatus] = useState(false);
+    const [status, setStatus] = useState(false);
     const FindApartment = async (e) => {
         e.preventDefault();
         setStatus(true);
@@ -26,8 +26,10 @@ const Searching = () => {
                     <div className="searching__input" style={{ width: '100%', position: 'relative' }}>
                         <form method='get' onSubmit={FindApartment}>
                             <input value={keyword}
-                             onChange={(e) => {setKeyword(e.target.value);
-                                setStatus(false)}} 
+                                onChange={(e) => {
+                                    setKeyword(e.target.value);
+                                    setStatus(false)
+                                }}
                                 style={{ width: '100%' }} type="text" placeholder="Find the apartment you want..." />
                             <button style={{ position: 'absolute', right: '0', bottom: '0px', border: 'none', fontSize: '24px', color: 'white', backgroundColor: 'var(--main-color)', padding: '2px 30px', borderRadius: '0 5px 5px 0', cursor: 'pointer' }} type="submit">
 
@@ -42,9 +44,11 @@ const Searching = () => {
             {status && (apartments && apartments.length > 0 ? (
                 <div>
                     <h3>Kết quả tìm được cho từ khóa '{keyword}'</h3>
-                    {apartments.map(apartment => (
-                        <ListApartments key={apartment._id} apartment={apartment} />
-                    ))}
+                    <div style={{ display: 'grid', gap:'10px',gridTemplateColumns: 'repeat(auto-fit,minmax(300px, 1fr))' }}>
+                        {apartments.map(apartment => (
+                            <ListApartments key={apartment._id} apartment={apartment} />
+                        ))}
+                    </div>
                 </div>
             ) : (
                 <div>

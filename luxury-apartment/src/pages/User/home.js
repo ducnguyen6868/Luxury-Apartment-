@@ -63,7 +63,7 @@ const Home = () => {
 
                     <h2>We Provide The Best <br />Property You Like</h2>
                 </div>
-                {<Searching/>}
+                {<Searching/>}                
                 <div>
                     <h3>Gợi ý cho bạn</h3>
                 </div>
