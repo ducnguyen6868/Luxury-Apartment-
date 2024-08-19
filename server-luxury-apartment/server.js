@@ -514,7 +514,55 @@ app.get('/admin/:adminId',async(req,res)=>{
   }catch(err){
     console.error(err);
   }
-})
+});
+
+app.post('/users',async(req,res)=>{
+  const {_id} = req.body;
+    const user = await User.findById(_id);
+    res.json(user);
+    
+});
+
+app.put('/update', async (req, res) => {
+  const { _id, name, email, password, avatar } = req.body;
+  const user = await User.findById(_id);
+  try {
+    // Kiểm tra nếu email đã tồn tại trong hệ thống
+    const existingUser = await User.findOne({ email });
+    if (existingUser != null && existingUser._id.toString() != _id) {
+      return res.status(400).json({ message: 'Email đã tồn tại' });
+    }
+    
+    // Cập nhật thông tin người dùng
+    const updatedUser = await User.findByIdAndUpdate(
+      _id,
+      { name, email, password, avatar },
+      { new: true }
+    );
+
+    res.json({ message: 'Cập nhật thông tin thành công', user: updatedUser });
+  } catch (error) {
+    res.status(500).json({ message: 'Có lỗi xảy ra, vui lòng thử lại.' });
+  }
+});
+
+ 
+app.post('/bookings',async(req,res)=>{
+  const userId = req.body.userId;
+  const apartmentId = req.body.apartmentId;
+  const status = req.body.status;
+  const time = req.body.time;
+  const bookingSchema = await Booking.create(
+    {
+      userId:userId,
+      apartmentId:apartmentId,
+      time:time,
+      status:status,
+      }
+  );
+  bookingSchema.save();
+  res.json({ message: 'Hẹn lịch thành công'});
+});
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
