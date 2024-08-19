@@ -77,7 +77,6 @@ input:focus{
   margin: 0;
   display: flex;
   gap: 20px;
-  /* Space between list items */
   min-width: 300px;
 }
 
@@ -90,7 +89,6 @@ input:focus{
 
 .sub-header .info li i {
   margin-right: 5px;
-  /* Space between icon and text */
   color: #666;
   font-size: large;
 }
@@ -167,7 +165,7 @@ nav .nav .active{
 }
 nav .nav li {
   list-style-type: none;
-  display: inline-block;
+  display: flex;
   padding: 10px 30px;
 
 }

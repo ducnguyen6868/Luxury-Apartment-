@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import '../../css/form.css';
+import '../../css/Registerform.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -50,51 +50,57 @@ const RegisterForm = () => {
         navigate(-1);
     }
     return (
-        <>
-            <section className='access-form'>
-
-                <div className='form-container'>
-                    {checkResult && (<h1 className={!checkResult ? 'hidden':''} style={{ textAlign: 'center', color: 'white', backgroundColor: 'green', position: 'absolute', zIndex: '4', width: '100%', padding: '5px 0px', transition:'opaciy 1s ease-in-out', fontSize:'20px'}}>Đăng ký thành công !!!</h1>)}
-                    <form method='post' onSubmit={handleSubmit}>
-                        <i style={{ position: 'absolute', top: '0px', left: '0px', fontSize: 'larger', cursor: 'pointer', padding: '10px' }} onClick={goBack}className="fa-solid fa-delete-left"></i>
-                        <div className='box-name'>
-                            <img style={{ width: '100px', height: 'auto' }} src='../logo.png' alt='Logo'></img>
-                            <span style={{ fontWeight: 'bold', fontSize: 'larger', textTransform: 'uppercase' }}>Villa Agency</span>
-                        </div>
-                        <h2 style={{ textAlign: 'center' }}>Register</h2>
-                        <div className='box-info'>
-                            <label className='label'>Your name:</label>
-                            <input type='text' required value={name} onChange={(e) => { setName(e.target.value) }} />
-                        </div>
-                        <div className='box-info'>
-                            <label className='label'>Email:</label>
-                            <input type='email' required value={email} onChange={(e) => { setEmail(e.target.value) }} />
-                            {checkEmail && (
-                                <div>
-                                    <span style={{ color: 'red' }}>Email đã được đăng ký</span>
-                                </div>)}
-                        </div>
-                        <div className='box-info'>
-                            <label className='label'>Password:</label>
-                            <input type='password' required value={password} onChange={(e) => { setPassword(e.target.value) }} />
-                        </div>
-                        <div className='box-info'>
-                            <label className='label'>Confirm Password:</label>
-                            <input type='password' required value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value) }} />
-                            {!checkPassword && (<div><span style={{ color: 'red' }}>Mật khẩu xác nhận không trùng khớp</span></div>)}
-                        </div>
-                        <div className='box-button' style={{ textAlign: 'center', margin: '10px 0px' }}>
-                            <button id='button-login' type='submit' style={{ border: 'none', padding: '5px 20px', borderRadius: '10px', fontSize: 'larger', color: '#fff', backgroundColor: 'var(--main-color)' }}>Sign up</button>
-                        </div>
+        <section className='register-form'>
+            <div className='form-container'>
+                {checkResult && (
+                    <div className='success-message'>
+                        Đăng ký thành công !!!
+                    </div>
+                )}
+                <form method='post' onSubmit={handleSubmit}>
+                    <i className="fa-solid fa-delete-left back-icon" onClick={goBack}></i>
+                    <div className='box-name'>
+                        <img className='logo' src='../logo.png' alt='Logo' />
+                        <span className='agency-name'>Villa Agency</span>
+                    </div>
+                    <h2 className='form-title'>Sign up</h2>
+                    <div className='box-info'>
+                        <label className='label'>Your name:</label>
+                        <input type='text' required value={name} onChange={(e) => setName(e.target.value)} />
+                    </div>
+                    <div className='box-info'>
+                        <label className='label'>Email:</label>
+                        <input type='email' required value={email} onChange={(e) => setEmail(e.target.value)} />
+                        {checkEmail && (
+                            <div className='error-message'>
+                                Email đã được đăng ký
+                            </div>
+                        )}
+                    </div>
+                    <div className='box-info'>
+                        <label className='label'>Password:</label>
+                        <input type='password' required value={password} onChange={(e) => setPassword(e.target.value)} />
+                    </div>
+                    <div className='box-info'>
+                        <label className='label'>Confirm Password:</label>
+                        <input type='password' required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                        {!checkPassword && (
+                            <div className='error-message'>
+                                Mật khẩu xác nhận không trùng khớp
+                            </div>
+                        )}
+                    </div>
+                    <div className='box-button'>
+                        <button type='submit' className='submit-button'>Sign up</button>
                         <div className='box-help'>
-                            <span>Did have account ?</span>
-                            <Link to='#'>Login</Link>
-                        </div>
-                    </form>
-                    <img style={{ width: '400px' }} src='/images/single-property.jpg' alt='view access' />
-                </div>
-            </section>
-        </>
+                        <span>Did have account ? </span>
+                        <Link to='/login'>Login</Link>
+                    </div>
+                    </div>
+                    
+                </form>
+            </div>
+        </section>
     );
 };
 
