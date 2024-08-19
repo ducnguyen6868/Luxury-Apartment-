@@ -20,6 +20,10 @@ const BookingForm = ({ userId, apartmentId, onBack }) => {
   
       // Cập nhật thông báo thành công hoặc thông báo lỗi
       setStatus(response.data.message);
+      if (response.data.message === 'Hẹn lịch thành công') {
+        // Điều hướng về trang home sau khi cập nhật thành công
+        window.location.href = '/';
+      }
     } catch (error) {
       if (error.response) {
         setStatus(error.response.data.message);
@@ -61,7 +65,7 @@ const BookingForm = ({ userId, apartmentId, onBack }) => {
               <button type="submit" disabled={isSubmitting} style={{ ...styles.btn, ...styles.btnPrimary }}>
                 Đặt lịch
               </button>
-              <button type="button" onClick={onBack} style={{ ...styles.btn, ...styles.btnSecondary }}>
+              <button type="button" onClick={()=>{ window.location.href = '/';}} style={{ ...styles.btn, ...styles.btnSecondary }}>
                 Quay lại
               </button>
             </div>

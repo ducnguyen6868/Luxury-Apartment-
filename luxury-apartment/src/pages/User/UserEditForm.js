@@ -36,11 +36,11 @@ const FormEditProfile = ({ onBack }) => {
     try {
       // Tạo đối tượng dữ liệu để gửi
       const data = {
-        _id: userId, // Hoặc bạn có thể lấy giá trị userId từ values nếu cần
+        _id: userId,
         name: values.name,
         email: values.email,
         password: values.password,
-        avatar: values.avatar // Đây chỉ là tên file, không phải file thực tế
+        avatar: values.avatar, 
       };
   
       // Gửi dữ liệu dưới dạng JSON
@@ -51,6 +51,11 @@ const FormEditProfile = ({ onBack }) => {
       });
   
       setMessage(response.data.message);
+  
+      if (response.data.message === 'Cập nhật thông tin thành công') {
+        // Điều hướng về trang home sau khi cập nhật thành công
+        window.location.href = '/';
+      }
     } catch (error) {
       if (error.response) {
         setMessage(error.response.data.message);
@@ -59,6 +64,7 @@ const FormEditProfile = ({ onBack }) => {
       }
     }
   };
+  
 
   if (!userData) {
     return <div>Đang tải dữ liệu...</div>;
