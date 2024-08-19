@@ -125,7 +125,7 @@ const Layout = () => {
                                     </li>
                                     <li>
                                         <Link
-                                            to="/"
+                                            to="/schedule"
                                             className={`option ${activeLink === '/schedule' ? 'active' : ''}`}
                                             onClick={() => handleLinkClick('/schedule')}
                                         >

@@ -518,3 +518,54 @@ app.get('/admin/:adminId',async(req,res)=>{
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
+
+// API để tạo mới một lịch hẹn
+app.post('/api/bookings', async (req, res) => {
+  const { apartmentId, userId, time } = req.body;
+  try {
+    const newBooking = new Booking({
+      apartment: apartmentId,
+      user: userId,
+      time: new Date(time),
+      status: 'pending'
+    });
+    await newBooking.save();
+
+    // Giả sử bạn muốn thông báo cho người dùng bằng email
+    // Gửi email hoặc thông báo ở đây (giả sử có hàm sendNotification)
+    sendNotification(userId, `Your booking for apartment ${apartmentId} is pending confirmation.`);
+
+    res.status(201).json(newBooking);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to create booking', error });
+  }
+});
+
+// API để cập nhật trạng thái lịch hẹn
+app.put('/api/bookings/:id/status', async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body; // status có thể là 'confirmed', 'cancelled'
+
+  try {
+    const booking = await Booking.findById(id);
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking not found' });
+    }
+
+    booking.status = status;
+    await booking.save();
+
+    // Gửi thông báo cho người dùng về việc cập nhật trạng thái
+    sendNotification(booking.user, `Your booking has been ${status}.`);
+
+    res.json(booking);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to update booking status', error });
+  }
+});
+
+function sendNotification(userId, message) {
+  // Tùy vào hệ thống của bạn, bạn có thể sử dụng các dịch vụ như SendGrid, Twilio, hoặc một service custom
+  console.log(`Notification sent to user ${userId}: ${message}`);
+  // Gửi email hoặc thông báo push ở đây
+}

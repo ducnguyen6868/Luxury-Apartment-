@@ -16,6 +16,9 @@ import Dashboard from './pages/Admin/Dashboard';
 import './index.css';
 import './js/loader';
 import reportWebVitals from './reportWebVitals';
+import ScheduleForm from './components/User/ScheduleForm';
+
+
 
 export default function App() {
 
@@ -30,7 +33,7 @@ export default function App() {
           <Route path="searching" element={<ListApartments />} />
           <Route path="login" element={<LoginForm />} />
           <Route path="register" element={<RegisterForm />} />
-
+          <Route path="schedule" element={<ScheduleForm />} />
         </Route>
         <Route path='admin/login' element={<AdminLogin />} />
         <Route path='admin' element={<LayoutAdmin/>}>
