@@ -1,6 +1,7 @@
-import {useState} from 'react';
-import '../../css/account.css';
+import { useState } from 'react';
+import { Link } from "react-router-dom";
 import AlertLogout from '../../components/User/AlertLogout';
+import '../../css/account.css';
 const Account =({infoUser})=>{
     const [alertLogout, setAlertLogout]= useState(false);
     if(!infoUser){
@@ -20,7 +21,7 @@ const Account =({infoUser})=>{
             <span style={{padding:"0 10px", fontWeight:'bolder'}}>{infoUser.name}</span>
             <ul className="account-option">
                 <li><i className="fa-solid fa-user"></i>My account</li>
-                <li><i className="fa-solid fa-gear"></i>Settings</li>
+                <li><i className="fa-solid fa-gear"></i><Link to= 'formEditProfile'>Settings</Link></li>
                 <li onClick={()=>setAlertLogout(true)}><i className="fa-solid fa-right-from-bracket"></i>Logout</li>
             </ul>
         </div>

@@ -1,7 +1,7 @@
 // src/components/ApartmentDetails.js
-import {Link} from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../../css/ListApartments.css';
-import {useState} from 'react';
 const ListApartments = ({ apartment }) => {
   const [imageSrc ,setImageSrc]= useState(apartment.images[0]);
   const fallbackSrc='images/image-not-found.jpg';

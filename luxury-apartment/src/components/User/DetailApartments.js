@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 const Detailapartment = ({ apartmentDetails }) => {
 
     return (
@@ -40,8 +41,8 @@ const Detailapartment = ({ apartmentDetails }) => {
                 </div>
                 <div className="apartment-contact">
                     <h3>Contact Info:</h3>
-                    <p>{apartmentDetails.contactInfo.name}</p>
-                    <p>{apartmentDetails.contactInfo.email}</p>
+                    <p>{apartmentDetails.contactInfo}</p>
+                    <p>{apartmentDetails.contactInfo}</p>
                 </div>
                 <div className="apartment-nearby-facilities">
                     <h3>Nearby Facilities:</h3>
@@ -89,11 +90,47 @@ const Detailapartment = ({ apartmentDetails }) => {
                             style={{ border: '0', borderRadius: '10px', boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.15)' }}
                             allowFullScreen
                         ></iframe>
-
+                <div>
+                <Link to={`../bookingFormSchema`}>  
+              <button className="schedule-visit-btn" >Hẹn lịch xem phòng</button>
+        </Link>
                     </div>
+                    </div>
+                   
                 )}
             </div>
+            <style jsx>{`
+                .schedule-visit-btn {
+                    display: inline-block;
+                    margin-top: 20px;
+                    padding: 12px 30px;
+                    background-color: #28a745;
+                    color: #fff;
+                    font-size: 18px;
+                    font-weight: 600;
+                    border: none;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: background-color 0.3s, transform 0.3s;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                .schedule-visit-btn:hover {
+                    background-color: #218838;
+                    transform: translateY(-2px);
+                }
+
+                .schedule-visit-btn:active {
+                    transform: translateY(1px);
+                }
+
+                .schedule-visit-btn:focus {
+                    outline: none;
+                    box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+                }
+            `}</style>
         </>
     )
 }
+
 export default Detailapartment;

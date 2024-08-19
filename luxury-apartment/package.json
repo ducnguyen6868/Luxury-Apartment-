@@ -8,6 +8,7 @@
     "axios": "^1.7.2",
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "formik": "^2.4.6",
     "jquery": "^3.7.1",
     "jwt-decode": "^4.0.0",
     "mongoose": "^8.5.1",
@@ -16,7 +17,8 @@
     "react-dom": "^18.3.1",
     "react-paginate": "^8.2.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.4.0"
   },
   "scripts": {
     "start": "react-scripts start",

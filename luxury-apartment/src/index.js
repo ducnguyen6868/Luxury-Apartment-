@@ -1,20 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./pages/User/layout";
-import Home from "./pages/User/home";
-import ListApartments from "./pages/User/ListApartments";
-import DetailsApartment from "./pages/User/DetailApartment";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AdminLogin from './components/Admin/Login';
 import Contact from "./components/User/Contact";
 import LoginForm from './components/User/LoginForm';
 import RegisterForm from './components/User/RegisterForm';
-import AdminLogin from './components/Admin/Login';
-import LayoutAdmin from './pages/Admin/Layout';
-import AdminApartment from './pages/Admin/ListApartment';
-import AdminDetailApartment from './pages/Admin/DetailsApartment';
-import Dashboard from './pages/Admin/Dashboard';
 import './index.css';
 import './js/loader';
+import Dashboard from './pages/Admin/Dashboard';
+import AdminDetailApartment from './pages/Admin/DetailsApartment';
+import LayoutAdmin from './pages/Admin/Layout';
+import AdminApartment from './pages/Admin/ListApartment';
+import DetailsApartment from "./pages/User/DetailApartment";
+import Home from "./pages/User/home";
+import Layout from "./pages/User/layout";
+import ListApartments from "./pages/User/ListApartments";
+import BookingFormSchema from './pages/User/ScheduAppointment';
+import FormEditProfile from './pages/User/UserEditForm';
 import reportWebVitals from './reportWebVitals';
 
 export default function App() {
@@ -29,7 +31,10 @@ export default function App() {
           <Route path="contact" element={<Contact />} />
           <Route path="searching" element={<ListApartments />} />
           <Route path="login" element={<LoginForm />} />
+          <Route path="formEditProfile" element={<FormEditProfile />} />
+          <Route path="bookingFormSchema" element={<BookingFormSchema />} />
           <Route path="register" element={<RegisterForm />} />
+
 
         </Route>
         <Route path='admin/login' element={<AdminLogin />} />
