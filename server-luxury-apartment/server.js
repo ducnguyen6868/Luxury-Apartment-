@@ -552,7 +552,16 @@ app.post('/bookings',async(req,res)=>{
   const apartmentId = req.body.apartmentId;
   const status = req.body.status;
   const time = req.body.time;
-  const bookingSchema = await Booking.create(
+  const checkIfTimeIsInFuture = (time) => {
+    const currentTime = new Date(); // Lấy thời gian hiện tại
+    const timeToCompare = new Date(time); // Chuyển đổi biến time thành đối tượng Date
+  
+    // So sánh thời gian hiện tại với timeToCompare
+    return timeToCompare.getTime() > currentTime.getTime();
+  };
+  const isInFuture = checkIfTimeIsInFuture(time);
+  if(isInFuture){
+    const bookingSchema = await Booking.create(
     {
       userId:userId,
       apartmentId:apartmentId,
@@ -562,6 +571,10 @@ app.post('/bookings',async(req,res)=>{
   );
   bookingSchema.save();
   res.json({ message: 'Hẹn lịch thành công'});
+  }else{
+    res.json({ message: 'Thời gian bạn hẹn đã qua, vui lòng đặt lại!'});
+  }
+  
 });
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
